@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: condition-1
-        run: echo ${{ github.event.commits }}
+        run: echo ${{ toJson(github) }}
 
 # name: Cron
 
