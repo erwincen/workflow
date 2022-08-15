@@ -9,8 +9,11 @@ jobs:
   Get-Commit:
     runs-on: ubuntu-latest
     steps:
+      - name: Get notes
+        id: generate_notes
+        uses: anmarkoulis/commitizen-changelog-reader@master
       - name: condition-1
-        run: echo ${{ toJson(github.event.commits) }}
+        run: echo ${{ toJson(steps.generate_notes.output.notes) }}
 
 # name: Cron
 
