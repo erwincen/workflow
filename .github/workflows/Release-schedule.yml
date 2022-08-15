@@ -17,7 +17,7 @@ jobs:
           draft: false
           regex: "/^Release: #{semver}$/i"
         env:
-          GITHUB_TOKEN: ${{ secrets.test }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
       # - name: Checkout
       #   uses: actions/checkout@v3
       # - name: Extract release notes
