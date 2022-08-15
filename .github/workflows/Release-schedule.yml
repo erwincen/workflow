@@ -12,6 +12,9 @@ jobs:
       - name: Get notes
         id: generate_notes
         uses: anmarkoulis/commitizen-changelog-reader@master
+        with:
+          tag_name: ${{ github.ref }}
+          changelog: CHANGELOG.md
       - name: condition-1
         run: echo ${{ toJson(steps.generate_notes.output.notes).notes }}
 
