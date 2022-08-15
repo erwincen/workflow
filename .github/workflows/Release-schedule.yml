@@ -17,7 +17,7 @@ jobs:
         with:
           release_notes_file: RELEASE_NOTES.md
       - name: condition-1
-        run: echo ${{ toJson(steps.extract-release-notes.outputs.release_notes) }}
+        run: echo ${{ steps.extract-release-notes.outputs.release_notes }}
 
 # name: Cron
 
