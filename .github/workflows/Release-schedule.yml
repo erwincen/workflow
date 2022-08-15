@@ -1,20 +1,34 @@
-name: Cron
+name: Dev Deploy
 
 on:
-  schedule:
-    - cron: "*/2 * * * *"
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  cron:
+  Get-Commit:
     runs-on: ubuntu-latest
-    
     steps:
-      # Runs a single command using the runners shell
-      - name: condition 1
-        if: contains(github.event.head_commit.message, 'fix')
-        run: echo Hello, world!
-      - name: condition 2
-        run: echo github.event.head_commit.message
+      - name: condition-1
+        run: echo github.event
+
+# name: Cron
+
+# on:
+#   schedule:
+#     - cron: "*/2 * * * *"
+
+# jobs:
+#   cron:
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       # Runs a single command using the runners shell
+#       - name: condition 1
+#         if: contains(github.event.head_commit.message, 'fix')
+#         run: echo Hello, world!
+#       - name: condition 2
+#         run: echo github.event.head_commit.message
 
 # jobs:
 #   release-please:
