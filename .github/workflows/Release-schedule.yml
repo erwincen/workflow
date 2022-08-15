@@ -52,9 +52,9 @@ jobs:
           tag_name: "releases/softprops"
           token: "${{ secrets.TOKEN }}"
           draft: true
-          files: |
-            Release.txt
-            LICENSE
+          # files: |
+          #   Release.txt
+          #   LICENSE
 
 
 
