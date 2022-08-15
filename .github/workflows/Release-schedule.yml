@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Generate Release Notes
         id: release_notes
         uses: cardinalby/git-get-release-action@v1
@@ -25,7 +28,7 @@ jobs:
           repo_token: "${{ secrets.TOKEN }}"
           prerelease: false
           draft: true
-          automatic_release_tag: "latest"
+          automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
           # files: |
           #   LICENSE.txt
           #   *.jar
