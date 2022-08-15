@@ -19,7 +19,7 @@ jobs:
           latest: true
 
       - name: Create Release
-        if: contains(steps.release_notes.outputs.body, 'fixme')
+        if: contains(steps.release_notes.outputs.body, 'fix:')
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.TOKEN }}"
