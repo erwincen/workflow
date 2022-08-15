@@ -21,12 +21,6 @@ jobs:
         with:
           latest: true
 
-      - name: Build
-        run: echo ${{ github.sha }} > Release.txt
-
-      - name: Read-release
-        run: echo ${{ github.sha }}
-
       - name: Create Release
         if: contains(steps.release_notes.outputs.body, 'fix:')
 
@@ -44,12 +38,12 @@ jobs:
         #   draft: true
         #   automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
 
-
+        # https://github.com/softprops/action-gh-release
         uses: softprops/action-gh-release@v1
         with: 
           generate_release_notes: true
           # tag_name: "releases/${{ steps.date.outputs.date }}"
-          tag_name: "releases/softprops"
+          tag_name: "releases/$(date +'%Y-%m-%d')"
           token: "${{ secrets.TOKEN }}"
           draft: true
           # files: |
