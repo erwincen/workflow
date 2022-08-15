@@ -21,6 +21,9 @@ jobs:
         with:
           latest: true
 
+      - name: Build
+        run: echo ${{ github.sha }} > Release.txt
+
       - name: Create Release
         if: contains(steps.release_notes.outputs.body, 'fix:')
         # uses: "marvinpinto/action-automatic-releases@latest"
@@ -36,6 +39,9 @@ jobs:
           tag_name: "releases/test2"
           token: "${{ secrets.TOKEN }}"
           draft: true
+          files: |
+            Release.txt
+            LICENSE
           # files: |
           #   LICENSE.txt
           #   *.jar
