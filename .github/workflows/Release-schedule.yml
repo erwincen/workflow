@@ -27,43 +27,11 @@ jobs:
 
 
         # https://github.com/softprops/action-gh-release
-        # uses: softprops/action-gh-release@v1
-        # with: 
-        #   generate_release_notes: true
-        #   tag_name: "releases/${{ steps.date.outputs.date }}"
-        #   token: "${{ secrets.TOKEN }}"
-        #   draft: true
-          # files: |
-          #   Release.txt
-          #   LICENSE
-
-        uses: ncipollo/release-action@v1
-        with:
-          tag: releases/ncipollo
-          generateReleaseNotes: true
-          token: ${{ secrets.TOKEN }}
-          draft: true
-        #   artifacts: *.
-
-        # uses: "marvinpinto/action-automatic-releases@latest"
-        # with:
-        #   repo_token: "${{ secrets.TOKEN }}"
-        #   draft: true
-        #   automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
-
-        # run: echo good
-      # - name: teester
-      #   run: echo ${{ toJson(steps.release_notes.outputs.body) }}
-      # - name: teester2
-      #   run: echo ${{ toString(steps.release_notes.outputs.body) }}
-        
-      # - name: Checkout
-      #   uses: actions/checkout@v3
-      # - name: Extract release notes
-      #   id: build_changelog
-      #   uses: mikepenz/release-changelog-builder-action@{latest-release}
-      # - name: condition-1
-      #   run: echo ${{steps.build_changelog.outputs.changelog}}
+        uses: softprops/action-gh-release@v1
+        with: 
+          generate_release_notes: true
+          tag_name: "releases/${{ steps.date.outputs.date }}"
+          token: "${{ secrets.TOKEN }}"
 
 # name: Cron
 
