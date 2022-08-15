@@ -19,7 +19,7 @@ jobs:
           latest: true
 
       - name: logIt
-        if: contains(steps.release_notes.outputs.body, 'fix')
+        if: contains(steps.release_notes.outputs.body, 'fixme')
         run: echo good
       - name: teester
         run: echo ${{ toJson(steps.release_notes.outputs.body) }}
