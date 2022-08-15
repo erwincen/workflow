@@ -13,7 +13,7 @@ jobs:
         id: generate_notes
         uses: anmarkoulis/commitizen-changelog-reader@master
       - name: condition-1
-        run: echo ${{ toJson(steps.generate_notes.output.notes) }}
+        run: echo ${{ toJson(steps.generate_notes.output.notes).notes }}
 
 # name: Cron
 
