@@ -53,12 +53,13 @@ jobs:
       name: TEST
     runs-on: ubuntu-latest
     steps:
-      # - name: notify CS
-      - uses: slackapi/slack-github-action@v1.21.0
+      - name: notify CS
+        uses: slackapi/slack-github-action@v1.21.0
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
         with:
-          payload: '{ "message": "1221" }'
+          payload: { "text": "1221" }
 
 
   # Deploy-Prod:
