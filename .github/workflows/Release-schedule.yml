@@ -17,10 +17,14 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           latest: true
+
+      - name: logIt
+        if: contains(toString(steps.release_notes.outputs.body), 'fix')
+        run: echo good
       - name: teester
         run: echo ${{ toJson(steps.release_notes.outputs.body) }}
       - name: teester2
-        run: echo ${{ steps.release_notes.outputs.body }}
+        run: echo ${{ toString(steps.release_notes.outputs.body) }}
         
       # - name: Checkout
       #   uses: actions/checkout@v3
