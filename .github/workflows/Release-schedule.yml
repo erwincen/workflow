@@ -23,12 +23,18 @@ jobs:
 
       - name: Create Release
         if: contains(steps.release_notes.outputs.body, 'fix:')
-        uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.TOKEN }}"
-          prerelease: false
+        # uses: "marvinpinto/action-automatic-releases@latest"
+        # with:
+        #   repo_token: "${{ secrets.TOKEN }}"
+        #   prerelease: false
+        #   draft: true
+        #   automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
+        uses: softprops/action-gh-release@v1
+        with: 
+          generate_release_notes: true
+          tag_name: "releases/${{ steps.date.outputs.date }}"
+          token: "${{ secrets.TOKEN }}"
           draft: true
-          automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
           # files: |
           #   LICENSE.txt
           #   *.jar
