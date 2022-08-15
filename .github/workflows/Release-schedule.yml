@@ -18,11 +18,23 @@ jobs:
         with:
           latest: true
 
-      - name: logIt
+      - name: Create Release
         if: contains(steps.release_notes.outputs.body, 'fixme')
-        run: echo good
-      - name: teester
-        run: echo ${{ toJson(steps.release_notes.outputs.body) }}
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.TOKEN }}"
+          prerelease: false
+          draft: true
+          automatic_release_tag: "latest"
+          # files: |
+          #   LICENSE.txt
+          #   *.jar
+
+
+
+        # run: echo good
+      # - name: teester
+      #   run: echo ${{ toJson(steps.release_notes.outputs.body) }}
       # - name: teester2
       #   run: echo ${{ toString(steps.release_notes.outputs.body) }}
         
