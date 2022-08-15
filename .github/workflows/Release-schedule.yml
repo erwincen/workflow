@@ -22,7 +22,21 @@ jobs:
           latest: true
 
       - name: Create Release
+        id:
         if: contains(steps.release_notes.outputs.body, 'fix:')
+
+
+
+        # https://github.com/softprops/action-gh-release
+        # uses: softprops/action-gh-release@v1
+        # with: 
+        #   generate_release_notes: true
+        #   tag_name: "releases/${{ steps.date.outputs.date }}"
+        #   token: "${{ secrets.TOKEN }}"
+        #   draft: true
+          # files: |
+          #   Release.txt
+          #   LICENSE
 
         # uses: ncipollo/release-action@v1
         # with:
@@ -32,25 +46,11 @@ jobs:
         #   draft: true
         #   artifacts: *.
 
-        # uses: "marvinpinto/action-automatic-releases@latest"
-        # with:
-        #   repo_token: "${{ secrets.TOKEN }}"
-        #   draft: true
-        #   automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
-
-        # https://github.com/softprops/action-gh-release
-        uses: softprops/action-gh-release@v1
-        with: 
-          generate_release_notes: true
-          # tag_name: "releases/${{ steps.date.outputs.date }}"
-          tag_name: "releases/$(date +'%Y-%m-%d')"
-          token: "${{ secrets.TOKEN }}"
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.TOKEN }}"
           draft: true
-          # files: |
-          #   Release.txt
-          #   LICENSE
-
-
+          automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
 
         # run: echo good
       # - name: teester
