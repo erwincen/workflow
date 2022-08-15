@@ -24,6 +24,9 @@ jobs:
       - name: Build
         run: echo ${{ github.sha }} > Release.txt
 
+      - name: Read-release
+        run: echo ${{ github.sha }}
+
       - name: Create Release
         if: contains(steps.release_notes.outputs.body, 'fix:')
         # uses: "marvinpinto/action-automatic-releases@latest"
