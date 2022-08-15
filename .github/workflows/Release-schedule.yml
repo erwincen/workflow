@@ -9,14 +9,11 @@ jobs:
   Get-Commit:
     runs-on: ubuntu-latest
     steps:
-      - name: Get notes
-        id: generate_notes
-        uses: anmarkoulis/commitizen-changelog-reader@master
-        with:
-          tag_name: ${{ github.ref }}
-          changelog: CHANGELOG.md
+      - name: Extract release notes
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v1
       - name: condition-1
-        run: echo ${{ toJson(steps.generate_notes.output.notes).notes }}
+        run: echo ${{ toJson(steps.extract-release-notes.outputs.release_notes) }}
 
 # name: Cron
 
