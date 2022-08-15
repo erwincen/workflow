@@ -32,7 +32,7 @@ jobs:
 
         uses: elgohr/Github-Release-Action@v4
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           title: MyReleaseMessage
           tag: releases/test3
