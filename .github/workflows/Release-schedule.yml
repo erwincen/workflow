@@ -27,7 +27,7 @@ jobs:
 
       - name: Create Release
         if: contains(steps.release_notes.outputs.body, 'fix:')
-        # https://github.com/softprops/action-gh-release
+        # https://github.com/softprops/action-gh-release dd
         uses: softprops/action-gh-release@v1
         with: 
           generate_release_notes: true
