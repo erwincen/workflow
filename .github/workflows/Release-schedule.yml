@@ -10,14 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: CupOfTea696/gh-action-auto-release@v1.0.0
-        with:
-          title: "Release: $version"
-          tag: "v$semver"
-          draft: false
-          regex: "/^Release: #{semver}$/i"
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      - name: Generate Release Notes
+        id: release_notes
+        uses: paolorevillosa/release-change-logs@master
+      - name: teester
+        run: echo ${{ steps.release_notes }}
       # - name: Checkout
       #   uses: actions/checkout@v3
       # - name: Extract release notes
