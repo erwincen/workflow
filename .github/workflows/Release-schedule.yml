@@ -29,25 +29,33 @@ jobs:
 
       - name: Create Release
         if: contains(steps.release_notes.outputs.body, 'fix:')
+
+        uses: elgohr/Github-Release-Action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        with:
+          title: MyReleaseMessage
+          tag: releases/test3
+
+
         # uses: "marvinpinto/action-automatic-releases@latest"
         # with:
         #   repo_token: "${{ secrets.TOKEN }}"
         #   prerelease: false
         #   draft: true
         #   automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
-        uses: softprops/action-gh-release@v1
-        with: 
-          generate_release_notes: true
-          # tag_name: "releases/${{ steps.date.outputs.date }}"
-          tag_name: "releases/test2"
-          token: "${{ secrets.TOKEN }}"
-          draft: true
-          files: |
-            Release.txt
-            LICENSE
-          # files: |
-          #   LICENSE.txt
-          #   *.jar
+
+
+        # uses: softprops/action-gh-release@v1
+        # with: 
+        #   generate_release_notes: true
+        #   # tag_name: "releases/${{ steps.date.outputs.date }}"
+        #   tag_name: "releases/test2"
+        #   token: "${{ secrets.TOKEN }}"
+        #   draft: true
+        #   files: |
+        #     Release.txt
+        #     LICENSE
 
 
 
