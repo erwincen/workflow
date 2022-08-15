@@ -18,7 +18,7 @@ jobs:
         with:
           latest: true
       - name: teester
-        run: echo ${{ steps.release_notes }}
+        run: echo ${{ toJson(steps.release_notes) }}
       # - name: Checkout
       #   uses: actions/checkout@v3
       # - name: Extract release notes
