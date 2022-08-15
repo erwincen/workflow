@@ -32,8 +32,8 @@ jobs:
 
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "release.tar.gz"
           tag: releases/test4
+          generateReleaseNotes: true
           token: ${{ secrets.TOKEN }}
           draft: true
 
