@@ -1,9 +1,9 @@
 name: Dev Deploy
 
 on:
-  pull_request:
-    branches:
-      - main
+  schedule:
+    # https://crontab.guru/#0_13_*_*_TUE
+    - cron: "40 15 * * MON"
 
 concurrency:
   group: deploy
@@ -54,6 +54,8 @@ jobs:
     environment:
       name: Prod
     steps:
+      - name: notify CS
+        run: echo notify CS
       - name: deploy_Prod
         run: echo deploy to Prod
    
