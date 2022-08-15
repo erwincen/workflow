@@ -27,9 +27,6 @@ jobs:
 
       - name: Create Release
         if: contains(steps.release_notes.outputs.body, 'fix:')
-
-
-
         # https://github.com/softprops/action-gh-release
         uses: softprops/action-gh-release@v1
         with: 
@@ -45,18 +42,21 @@ jobs:
         run: echo deploy to stage
    
   Notify-Stage:
+    needs: Deploy-Stage
     runs-on: ubuntu-latest
     steps:
       - name: notify_stage
         run: echo notify to stage
 
   Deploy-Prod:
+    needs: Deploy-Stage
     runs-on: ubuntu-latest
     steps:
       - name: deploy_Prod
         run: echo deploy to Prod
    
   Notify-Prod:
+    needs: Deploy-Prod
     runs-on: ubuntu-latest
     steps:
       - name: notify_Prod
