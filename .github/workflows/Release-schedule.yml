@@ -2,15 +2,20 @@ name: Cron
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/2 * * * *"
 
 jobs:
   cron:
     runs-on: ubuntu-latest
+    
     steps:
       # Runs a single command using the runners shell
-      - name: Run a one-line script
+      - name: condition 1
+        if: contains(github.event.head_commit.message, 'fix')
         run: echo Hello, world!
+      - name: condition 2
+        run: echo github.event.head_commit.message
+
 # jobs:
 #   release-please:
 #     runs-on: ubuntu-latest
