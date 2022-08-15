@@ -37,19 +37,19 @@ jobs:
           #   Release.txt
           #   LICENSE
 
-        # uses: ncipollo/release-action@v1
-        # with:
-        #   tag: releases/test4
-        #   generateReleaseNotes: true
-        #   token: ${{ secrets.TOKEN }}
-        #   draft: true
+        uses: ncipollo/release-action@v1
+        with:
+          tag: releases/ncipollo
+          generateReleaseNotes: true
+          token: ${{ secrets.TOKEN }}
+          draft: true
         #   artifacts: *.
 
-        uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.TOKEN }}"
-          draft: true
-          automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
+        # uses: "marvinpinto/action-automatic-releases@latest"
+        # with:
+        #   repo_token: "${{ secrets.TOKEN }}"
+        #   draft: true
+        #   automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
 
         # run: echo good
       # - name: teester
