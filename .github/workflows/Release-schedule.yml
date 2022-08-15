@@ -3,7 +3,7 @@ name: Dev Deploy
 on:
   schedule:
     # https://crontab.guru/#0_13_*_*_TUE
-    - cron: "55 15 * * *"
+    - cron: "5 23 * * *"
 
 concurrency:
   group: deploy
