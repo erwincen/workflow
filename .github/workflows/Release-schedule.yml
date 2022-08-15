@@ -51,6 +51,8 @@ jobs:
   Deploy-Prod:
     needs: Deploy-Stage
     runs-on: ubuntu-latest
+    environment:
+      name: Prod
     steps:
       - name: deploy_Prod
         run: echo deploy to Prod
