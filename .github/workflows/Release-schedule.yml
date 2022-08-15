@@ -30,31 +30,31 @@ jobs:
       - name: Create Release
         if: contains(steps.release_notes.outputs.body, 'fix:')
 
-        uses: ncipollo/release-action@v1
-        with:
-          tag: releases/test4
-          generateReleaseNotes: true
-          token: ${{ secrets.TOKEN }}
-          draft: true
+        # uses: ncipollo/release-action@v1
+        # with:
+        #   tag: releases/test4
+        #   generateReleaseNotes: true
+        #   token: ${{ secrets.TOKEN }}
+        #   draft: true
+        #   artifacts: *.
 
         # uses: "marvinpinto/action-automatic-releases@latest"
         # with:
         #   repo_token: "${{ secrets.TOKEN }}"
-        #   prerelease: false
         #   draft: true
         #   automatic_release_tag: "releases/${{ steps.date.outputs.date }}"
 
 
-        # uses: softprops/action-gh-release@v1
-        # with: 
-        #   generate_release_notes: true
-        #   # tag_name: "releases/${{ steps.date.outputs.date }}"
-        #   tag_name: "releases/test2"
-        #   token: "${{ secrets.TOKEN }}"
-        #   draft: true
-        #   files: |
-        #     Release.txt
-        #     LICENSE
+        uses: softprops/action-gh-release@v1
+        with: 
+          generate_release_notes: true
+          # tag_name: "releases/${{ steps.date.outputs.date }}"
+          tag_name: "releases/softprops"
+          token: "${{ secrets.TOKEN }}"
+          draft: true
+          files: |
+            Release.txt
+            LICENSE
 
 
 
