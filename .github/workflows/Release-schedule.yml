@@ -41,6 +41,8 @@ jobs:
   Deploy-Stage:
     needs: Get-Commit
     runs-on: ubuntu-latest
+    environment:
+      name: TEST
     steps:
       - name: deploy_stage
         run: echo deploy to stage
