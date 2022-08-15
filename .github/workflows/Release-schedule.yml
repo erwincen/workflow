@@ -22,7 +22,6 @@ jobs:
           latest: true
 
       - name: Create Release
-        id:
         if: contains(steps.release_notes.outputs.body, 'fix:')
 
 
