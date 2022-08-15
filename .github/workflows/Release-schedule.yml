@@ -58,34 +58,34 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
-          payload: '{ "message": ":tada: Deployed to stage :tada:" }'
+          payload: '{ "message": "1221" }'
 
 
-  Deploy-Prod:
-    needs: Deploy-Stage
-    runs-on: ubuntu-latest
-    environment:
-      name: Prod
-    steps:
-      - name: notify CS
-        run: echo maintenance started
-      - name: deploy_Prod
-        run: echo deploy to Prod
+  # Deploy-Prod:
+  #   needs: Deploy-Stage
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: Prod
+  #   steps:
+  #     - name: notify CS
+  #       run: echo maintenance started
+  #     - name: deploy_Prod
+  #       run: echo deploy to Prod
    
-  Notify-Prod:
-    needs: Deploy-Prod
-    runs-on: ubuntu-latest
-    steps:
-      - name: notify_Prod
-        run: echo notify to Prod
-      - name: notify CS
-        run: echo maintenance completed
-      - name: notify CS
-        uses: slackapi/slack-github-action@v1.21.0
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          payload: '{ "message": ":tada: Deployed to Prod :tada:" }'
+  # Notify-Prod:
+  #   needs: Deploy-Prod
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: notify_Prod
+  #       run: echo notify to Prod
+  #     - name: notify CS
+  #       run: echo maintenance completed
+  #     - name: notify CS
+  #       uses: slackapi/slack-github-action@v1.21.0
+  #       env:
+  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  #       with:
+  #         payload: '{ "message": ":tada: Deployed to Prod :tada:" }'
 
 
 # name: Cron
