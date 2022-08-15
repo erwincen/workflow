@@ -1,20 +1,94 @@
-name: Cron
+name: Dev Deploy
 
 on:
   schedule:
-    - cron: "*/2 * * * *"
+    # https://crontab.guru/#0_13_*_*_TUE
+    - cron: "55 15 * * *"
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
 
 jobs:
-  cron:
+  Get-Commit:
     runs-on: ubuntu-latest
-    
     steps:
-      # Runs a single command using the runners shell
-      - name: condition 1
-        if: contains(github.event.head_commit.message, 'fix')
-        run: echo Hello, world!
-      - name: condition 2
-        run: echo github.event.head_commit.message
+      - uses: actions/checkout@v2
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Generate Release Notes
+        id: release_notes
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          latest: true
+
+      - name: Create Release
+        if: contains(steps.release_notes.outputs.body, 'fix:')
+        # https://github.com/softprops/action-gh-release dd
+        uses: softprops/action-gh-release@v1
+        with: 
+          generate_release_notes: true
+          tag_name: "releases/${{ steps.date.outputs.date }}"
+          token: "${{ secrets.TOKEN }}"
+          draft: true
+
+  Deploy-Stage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy_stage
+        run: echo deploy to stage
+   
+  Notify-Stage:
+    needs: Deploy-Stage
+    runs-on: ubuntu-latest
+    steps:
+      - name: notify_stage
+        run: echo notify to stage
+
+  Deploy-Prod:
+    needs: Deploy-Stage
+    runs-on: ubuntu-latest
+    environment:
+      name: Prod
+    steps:
+      - name: notify CS
+        run: echo maintenance started
+      - name: deploy_Prod
+        run: echo deploy to Prod
+   
+  Notify-Prod:
+    needs: Deploy-Prod
+    runs-on: ubuntu-latest
+    steps:
+      - name: notify_Prod
+        run: echo notify to Prod
+      - name: notify CS
+        run: echo maintenance completed
+      - name: notify CS
+        run: echo send notification to deployment
+
+
+# name: Cron
+
+# on:
+#   schedule:
+# https://crontab.guru/#0_13_*_*_TUE
+#     - cron: "0 13 * * TUE"
+
+# jobs:
+#   cron:
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       # Runs a single command using the runners shell
+#       - name: condition 1
+#         if: contains(github.event.head_commit.message, 'fix')
+#         run: echo Hello, world!
+#       - name: condition 2
+#         run: echo github.event.head_commit.message
 
 # jobs:
 #   release-please:
