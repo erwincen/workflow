@@ -49,6 +49,8 @@ jobs:
    
   Notify-Stage:
     needs: Deploy-Stage
+    environment:
+      name: TEST
     runs-on: ubuntu-latest
     steps:
       # - name: notify CS
