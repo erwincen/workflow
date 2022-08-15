@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
 jobs:
   Get-Commit:
     runs-on: ubuntu-latest
@@ -32,12 +36,39 @@ jobs:
           generate_release_notes: true
           tag_name: "releases/${{ steps.date.outputs.date }}"
           token: "${{ secrets.TOKEN }}"
+          draft: true
+
+  Deploy-Stage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy_stage
+        run: echo deploy to stage
+   
+  Notify-Stage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: notify_stage
+        run: echo notify to stage
+
+  Deploy-Prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy_Prod
+        run: echo deploy to Prod
+   
+  Notify-Prod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: notify_Prod
+        run: echo notify to Prod
+
 
 # name: Cron
 
 # on:
 #   schedule:
-#     - cron: "*/2 * * * *"
+# https://crontab.guru/#0_13_*_*_TUE
+#     - cron: "0 13 * * TUE"
 
 # jobs:
 #   cron:
