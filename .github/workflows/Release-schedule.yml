@@ -3,7 +3,7 @@ name: Dev Deploy
 on:
   schedule:
     # https://crontab.guru/#0_13_*_*_TUE
-    - cron: "40 15 * * MON"
+    - cron: "45 15 * * *"
 
 concurrency:
   group: deploy
@@ -55,7 +55,7 @@ jobs:
       name: Prod
     steps:
       - name: notify CS
-        run: echo notify CS
+        run: echo maintenance started
       - name: deploy_Prod
         run: echo deploy to Prod
    
@@ -65,6 +65,10 @@ jobs:
     steps:
       - name: notify_Prod
         run: echo notify to Prod
+      - name: notify CS
+        run: echo maintenance completed
+      - name: notify CS
+        run: echo send notification to deployment
 
 
 # name: Cron
