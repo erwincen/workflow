@@ -39,6 +39,7 @@ jobs:
           draft: true
 
   Deploy-Stage:
+    needs: Get-Commit
     runs-on: ubuntu-latest
     steps:
       - name: deploy_stage
