@@ -32,14 +32,18 @@ jobs:
         with: 
           debug: true
           script: |
-            const result = await github.rest.repos.generateReleaseNotes({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag_name: 'unique'
-            })
+            try {
+              const result = await github.rest.repos.generateReleaseNotes({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: 'unique'
+              })
 
-            if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
-              return true
+              if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
+                return true
+              }
+            } catch (e) {
+              return false
             }
         
       - name: Create Release
@@ -48,16 +52,21 @@ jobs:
         with:
           script: |
             if ( ${{steps.release-notes.outputs.result}} === true ) {
-              const result = await github.rest.repos.createRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag_name: 'unique1',
-                generate_release_notes: true,
-                draft: true,
-              })
+              try {
+                await github.rest.repos.createRelease({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  tag_name: 'unique1',
+                  generate_release_notes: true,
+                  draft: true,
+                })
 
-              console.log(result)
-              return true
+                console.log(result)
+                return true
+              
+              } catch (e) {
+                return false
+              }
             } else {
               return false
             }
@@ -65,6 +74,7 @@ jobs:
       - name: Return true or false
         id: set_output
         run: |
+          echo ${{ steps.create-release.outputs.result }}
           if ${{ steps.create-release.outputs.result == 'true'}}; then
             echo "::set-output name=run_jobs::true"
           else
