@@ -23,11 +23,9 @@ jobs:
 
       - name: Generate Release Notes
         id: release_notes
-        uses: metcalfc/changelog-generator@v3.0.0
-        with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        uses: mikepenz/release-changelog-builder-action@{latest-release}
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       #   uses: ffurrer2/extract-release-notes@v1
 
