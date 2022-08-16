@@ -73,9 +73,9 @@ jobs:
               return false
             }
 
-      - name: Return true or false
-        id: set_output
-        run: echo ${{ toJson(steps.create-release)}}
+      # - name: Return true or false
+      #   id: set_output
+      #   run: echo ${{ toJson(steps.create-release)}}
 
   Deploy-Stage:
     needs: Get-Commit
