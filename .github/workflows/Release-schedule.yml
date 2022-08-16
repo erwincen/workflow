@@ -43,28 +43,12 @@ jobs:
 
       - name: Create Release
         id: create-release
-        run: echo ${{ toJson(steps.release-notes)}}
-        # uses: actions/github-script@v6
-        # with:
-        #   script: |
-        #     console.log(${{steps.release-notes.outputs}})
+        # run: echo ${{ toJson(steps.release-notes)}}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log(${{steps.release-notes.outputs}})
 
-        #     if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
-        #       return result.data.body
-        #     }
-
-        #     if ( ${{steps.release-notes.outputs.result}} === true ) {
-        #       const result = await github.rest.repos.createRelease({
-        #         owner: context.repo.owner,
-        #         repo: context.repo.repo,
-        #         tag_name: 'unique1',
-        #         generate_release_notes: true,
-        #         draft: true,
-        #       })
-        #       return true
-        #     } else {
-        #       return false
-        #     }
           
       - name: Return true or false
         id: set_output
