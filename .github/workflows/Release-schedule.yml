@@ -34,14 +34,18 @@ jobs:
           github-token: ${{ secrets.PAT }}
           debug: true
           script: |
-              const result = await github.rest.repos.generateReleaseNotes({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag_name: 'unique'
-              })
+              try {
+                const result = await github.rest.repos.generateReleaseNotes({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  tag_name: 'unique'
+                })
 
-              console.log('result', result)
-              return result
+                return JSON.stringify(result, null, 2)
+              } catch (error) {
+                return error
+              }
+
           # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
         # uses: scottbrenner/generate-changelog-action@master
