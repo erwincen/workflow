@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Get-Commit:
+  Check-Release:
     runs-on: ubuntu-latest
     outputs:
       run_rest_jobs: ${{ steps.set_output.outputs.run_jobs }}
@@ -63,7 +63,6 @@ jobs:
               return false
             }
           
-      # echo ${{ toJson(steps.release-notes.outputs.result) }}
       - name: Return true or false
         id: set_output
         run: |
@@ -73,9 +72,22 @@ jobs:
             echo "::set-output name=run_jobs::false"
           fi
 
+  No-Release:
+    needs: Check-Release
+    if: needs.Check-Release.outputs.run_rest_jobs == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - name: notify CS
+        uses: slackapi/slack-github-action@v1.21.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+        with:
+          payload: '{ "text": "No release" }'
+
   Deploy-Stage:
-    needs: [Get-Commit]
-    if: needs.Get-Commit.outputs.run_rest_jobs == 'true'
+    needs: Check-Release
+    if: needs.Check-Release.outputs.run_rest_jobs == 'true'
     runs-on: ubuntu-latest
     environment:
       name: TEST
