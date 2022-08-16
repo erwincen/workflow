@@ -77,10 +77,9 @@ jobs:
       - name: Return true or false
         id: set_output
         run: |
-          echo ${{ fromJson(steps.create-release.outputs.result).note}}
           if (${{ fromJson(steps.create-release.outputs.result).result }} == true ); then
             echo "::set-output name=run_jobs::true"
-            echo "::set-output name=notes::${{ fromJson(steps.create-release.outputs.result).note}}"
+            echo "Test=${{ fromJson(steps.create-release.outputs.result).note}}" >> $GITHUB_ENV
           else
             echo "::set-output name=run_jobs::false"
           fi
@@ -141,7 +140,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo ${{ toJson(needs.Check-Release.outputs)}}
+      - run: echo ${{ (needs.Check-Release.outputs.notes)}}
+      - run: echo ${{ env.Test}}
       - name: deploy_stage
         run: echo deploy to stage
   
