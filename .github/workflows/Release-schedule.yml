@@ -39,7 +39,7 @@ jobs:
             })
 
             if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
-              return body
+              return result.data.body
             }
         
       - name: Create Release
