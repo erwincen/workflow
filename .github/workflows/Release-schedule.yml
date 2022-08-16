@@ -71,35 +71,13 @@ jobs:
               return false
             }
 
-
-      # - name: Show Response
-      #   run: echo ${{ steps.create-release-notes }}
-
-      # - name: Show Response 2
-      #   run: echo ${{ toJSON(steps.create-release-notes)}}
-
-      # - name: print workspace id
-      #   run: echo ${{ toJSON(steps.release_notes) }}
-      # - name: parse-release-notes
-      #   run: echo ${{ toJson(steps.release_notes.outputs) }}
-
-      # - name: Create Release
-      #   # if: contains(steps.release_notes.outputs.body, 'fix:')
-      #   # https://github.com/softprops/action-gh-release dd
-      #   uses: softprops/action-gh-release@v1
-      #   with: 
-      #     generate_release_notes: true
-      #     tag_name: "releases/${{ steps.date.outputs.date }}"
-      #     token: "${{ secrets.TOKEN }}"
-      #     draft: true
-
   Deploy-Stage:
     needs: Get-Commit
     runs-on: ubuntu-latest
     environment:
       name: TEST
     steps:
-      - run: echo ${{ toJson(steps.create-release)}}
+      - run: echo ${{ toJson(steps)}}
       - name: deploy_stage
         run: echo deploy to stage
    
@@ -172,3 +150,27 @@ jobs:
 #         with:
 #           release-type: node
 #           package-name: release-please-action
+
+
+
+
+      # - name: Show Response
+      #   run: echo ${{ steps.create-release-notes }}
+
+      # - name: Show Response 2
+      #   run: echo ${{ toJSON(steps.create-release-notes)}}
+
+      # - name: print workspace id
+      #   run: echo ${{ toJSON(steps.release_notes) }}
+      # - name: parse-release-notes
+      #   run: echo ${{ toJson(steps.release_notes.outputs) }}
+
+      # - name: Create Release
+      #   # if: contains(steps.release_notes.outputs.body, 'fix:')
+      #   # https://github.com/softprops/action-gh-release dd
+      #   uses: softprops/action-gh-release@v1
+      #   with: 
+      #     generate_release_notes: true
+      #     tag_name: "releases/${{ steps.date.outputs.date }}"
+      #     token: "${{ secrets.TOKEN }}"
+      #     draft: true
