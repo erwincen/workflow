@@ -23,7 +23,7 @@ jobs:
 
       - name: Generate Release Notes
         id: release_notes
-        uses: BobAnkh/auto-generate-changelog@v1.2.2
+        uses: metcalfc/changelog-generator@v3.0.0
         with:
           ACCESS_TOKEN: ${{ secrets.TOKEN }}
         env:
