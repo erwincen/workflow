@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       run_rest_jobs: ${{ steps.set_output.outputs.run_jobs }}
+      notes: ${{ steps.set_output.outputs.notes }}
     environment:
       name: TEST
       
@@ -38,8 +39,6 @@ jobs:
                 repo: context.repo.repo,
                 tag_name: 'unique'
               })
-
-              console.log('result', result.data.body)
 
               if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
                 return true
@@ -64,8 +63,7 @@ jobs:
                 })
 
                 console.log('create', result)
-                return true
-              
+                return result.data.body
               } catch (e) {
                 return false
               }
@@ -77,10 +75,11 @@ jobs:
         id: set_output
         run: |
           echo ${{ steps.create-release.outputs.result }}
-          if ${{ steps.create-release.outputs.result }} == true; then
-            echo "::set-output name=run_jobs::true"
-          else
+          if ${{ steps.create-release.outputs.result }} == false; then
             echo "::set-output name=run_jobs::false"
+          else
+            echo "::set-output name=run_jobs::true"
+            echo "::set-output name=notes::${{steps.create-release.outputs.result}}"
           fi
 
   # No-Release:
