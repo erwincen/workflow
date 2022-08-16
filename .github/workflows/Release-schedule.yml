@@ -31,21 +31,16 @@ jobs:
         with: 
           debug: true
           script: |
-              try {
-                const result = await github.rest.repos.generateReleaseNotes({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  tag_name: 'unique'
-                })
-                console.log(result)
+            const result = await github.rest.repos.generateReleaseNotes({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: 'unique'
+            })
+            console.log(result)
 
-                if (result.data.body.includes('fix:') || result.data.body.includes('feat:') )
-                console.log('return true')
-                return 'true'
-              } catch (error) {
-                console.log('return false')
-                return 'false'
-              }
+            if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
+              return true
+            }
 
       # - name: Create Release
       #   # if: contains(steps.create-release-notes.outputs.result, ['fix:', 'feat:'])
@@ -57,7 +52,7 @@ jobs:
       - name: Create Release
         id: create-release
         run: echo ${{steps.create-release-notes.outputs.result}}
-        if: ${{steps.create-release-notes.outputs.result == false}}
+        if: ${{success() && steps.create-release-notes.outputs.result == true}}
         # uses: actions/github-script@v6
         # with:
         #   script: |
