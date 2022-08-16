@@ -28,6 +28,7 @@ jobs:
         id: myRequest
         uses: actions/github-script@v6
         with: 
+          github-token: ${{ secrets.Token }}
           script: |
             try {
               const a =  await github.rest.repos.generateReleaseNotes({
