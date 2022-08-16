@@ -34,7 +34,8 @@ jobs:
         #  curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token {{secrets.Token}}" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}'
         uses: fjogeleit/http-request-action@v1
         with:
-          customHeaders: '{"Accept": "application/vnd.github+json", "Authorization": "token {{secrets.Token}"" }'
+          customHeaders: |
+            {"Accept": "application/vnd.github+json", "Authorization": "token {{secrets.Token}" }
           url: 'https://api.github.com/repos/erwincen/workflow/releases/generate-notes'
           data: '{"tag_name":"v777777"}'
           method: 'POST'
