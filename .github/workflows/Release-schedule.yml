@@ -79,7 +79,7 @@ jobs:
         run: |
           if (${{ fromJson(steps.create-release.outputs.result).result }} == true ); then
             echo "::set-output name=run_jobs::true"
-            echo "::set-output name=notes=${{ fromJson(steps.create-release.outputs.result).note}}"
+            echo "::set-output name=notes=${{ steps.create-release.outputs.result }}"
           else
             echo "::set-output name=run_jobs::false"
           fi
@@ -140,8 +140,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo ${{ needs.Check-Release.outputs.notes }}
-      # - run: echo ${{ toJson(needs.Check-Release.outputs.notes)}}
+      - run: echo ${{ needs.Check-Release.outputs }}
+      - run: echo ${{ fromJson(needs.Check-Release.outputs).notes)}}
       # - run: echo ${{ fromJson(needs.Check-Release.outputs).notes }}
       - name: deploy_stage
         run: echo deploy to stage
