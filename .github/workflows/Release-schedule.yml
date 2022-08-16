@@ -63,7 +63,7 @@ jobs:
                 tag_name: 'unique'
               })
               console.log(result)
-            })
+            }
 
 
       # - name: Show Response
