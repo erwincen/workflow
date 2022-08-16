@@ -25,11 +25,15 @@ jobs:
 
       - name: Generate Release Notes
         id: myRequest
-        uses: TriPSs/conventional-changelog-action@v3 
+        uses: actions/github-script@v6
         with: 
-          github-token: ${{ secrets.Token }}
-          output-file: "false" 
-        # uses: cardinalby/git-get-release-action@v1
+          script: |
+            github.rest.repos.generateReleaseNotes({
+              owner: erwincen,
+              repo: workflow,
+              tag_name: unique
+            })
+          # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
         # uses: scottbrenner/generate-changelog-action@master
         # env:
