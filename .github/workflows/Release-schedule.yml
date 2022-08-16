@@ -28,6 +28,7 @@ jobs:
         uses: Requarks/changelog-action@v1
         with:
           token: ${{ secrets.Token }}
+          tag: releases/requarks
         # env:
         #   GITHUB_TOKEN: ${{ secrets.Token }}
         # with:
