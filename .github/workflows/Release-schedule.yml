@@ -56,7 +56,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            console.log('here', ${{steps}})
+            console.log('here', ${{steps.create-release-notes.outputs.result}})
 
 
       # - name: Show Response
