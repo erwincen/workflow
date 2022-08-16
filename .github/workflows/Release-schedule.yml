@@ -65,7 +65,7 @@ jobs:
           
       - name: Return true or false
         id: set_output
-        run: echo ${{ toJson(steps) }}
+        run: echo ${{ toJson(steps.release-notes.outputs.result) }}
       
 
   # Deploy-Stage:
