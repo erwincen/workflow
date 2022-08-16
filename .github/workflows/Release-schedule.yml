@@ -24,15 +24,22 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
       - name: Generate Release Notes
+
         id: myRequest
         uses: actions/github-script@v6
         with: 
           script: |
-            await github.rest.repos.generateReleaseNotes({
-              owner: @erwincen,
-              repo: workflow,
-              tag_name: unique
-            })
+            try {
+              const a =  await github.rest.repos.generateReleaseNotes({
+                owner: @erwincen,
+                repo: workflow,
+                tag_name: unique
+              })
+              console.log('response', a)
+              return a
+            } catch (e) {
+              console.log('a',e)
+            }
           # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
         # uses: scottbrenner/generate-changelog-action@master
