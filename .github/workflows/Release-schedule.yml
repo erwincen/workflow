@@ -23,7 +23,7 @@ jobs:
 
       - name: Generate Release Notes
         id: release_notes
-        uses: mikepenz/release-changelog-builder-action@v3.3.0
+        uses: Bullrich/generate-release-changelog@master
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
