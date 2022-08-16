@@ -39,6 +39,7 @@ jobs:
             })
 
             console.log(result)
+            return result
 
       - name: Create Release
         id: create-release
