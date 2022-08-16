@@ -126,8 +126,6 @@ jobs:
   Notify-Prod:
     needs: Deploy-Prod
     runs-on: ubuntu-latest
-    environment:
-      name: Prod
     steps:
       - name: notify_Prod
         run: echo notify to Prod
@@ -138,7 +136,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
-          payload: '{ "message": ":tada: Deployed to Prod :tada:" }'
+          payload: '{ "text": ":tada: Deployed to Prod :tada:" }'
 
 
 # name: Cron
