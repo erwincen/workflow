@@ -24,8 +24,6 @@ jobs:
       - name: Generate Release Notes
         id: release_notes
         uses: heineiuo/create-changelogs@master
-        with:
-          myToken: ${{ secrets.TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
