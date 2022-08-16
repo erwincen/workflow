@@ -77,11 +77,15 @@ jobs:
         id: set_output
         run: echo ${{ toJson(steps.create-release)}}
 
-  # Deploy-Stage:
+  Deploy-Stage:
+    needs: Get-Commit
+    runs-on: ubuntu-latest
+    steps: 
+      - name: testes
+        run: echo ${{ toJson(needs.Get-Commit)}}
   #   if: ${{ steps.create-release.outputs == true}}
   #   needs: Get-Commit
 
-  #   runs-on: ubuntu-latest
   #   environment:
   #     name: TEST
   #   steps:
