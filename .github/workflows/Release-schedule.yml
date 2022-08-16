@@ -33,15 +33,14 @@ jobs:
         # with:
         #   latest: true
         run: |
-          response=$(curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token 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}" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}')
-          echo "response from curl= $response"  
+          response=$(curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token {{secrets.Token}}" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}')
 
-      - name: read workspace body
-        id: workspace 
-        run: echo "::set-output name=body::$(workspaces.json)"
+      # - name: read workspace body
+      #   id: workspace 
+      #   run: echo "::set-output name=body::$(workspaces.json)"
 
       - name: Show Response
-        run: echo ${{ steps.myRequest.outputs.body }}
+        run: echo ${{ steps.myRequest }}
 
       - name: Show Response 2
         run: echo ${{ toJSON(steps.myRequest.outputs.body)}}
