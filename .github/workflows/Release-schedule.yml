@@ -41,7 +41,7 @@ jobs:
                   tag_name: 'unique'
                 })
 
-                return JSON.stringify(result, null, 2)
+                return JSON.parse(result)
               } catch (error) {
                 return error
               }
