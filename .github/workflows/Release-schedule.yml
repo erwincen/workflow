@@ -32,11 +32,13 @@ jobs:
         with: 
           debug: true
           script: |
-            await github.rest.repos.generateReleaseNotes({
+            const result = await github.rest.repos.generateReleaseNotes({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: 'unique'
             })
+
+            console.log(result)
 
       - name: Create Release
         id: create-release
