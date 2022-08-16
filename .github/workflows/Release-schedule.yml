@@ -24,11 +24,9 @@ jobs:
         id: release_notes
 
         uses: ffurrer2/extract-release-notes@v1
-        with:
-          release_notes_file: RELEASE_NOTES.md
 
       - name: parse-release-notes
-        run: echo ${{ steps.extract-release-notes.outputs.release_notes }}
+        run: echo ${{ steps.release_notes.outputs.release_notes }}
 
         # uses: cardinalby/git-get-release-action@v1
         # env:
