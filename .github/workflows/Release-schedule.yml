@@ -26,12 +26,12 @@ jobs:
       - name: Generate Release Notes
 
         id: myRequest
-        uses: actions/github-script@v6
+        uses: actions/github-script@v5
         with: 
           github-token: ${{ secrets.Token }}
           debug: true
           script: |
-              const a =  await github.rest.repos.generateReleaseNotes({
+              const a = await github.rest.repos.generateReleaseNotes({
                 owner: @erwincen,
                 repo: workflow,
                 tag_name: unique
