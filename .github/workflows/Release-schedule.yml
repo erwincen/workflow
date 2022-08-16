@@ -54,7 +54,7 @@ jobs:
           script: |
             if ( ${{steps.release-notes.outputs.result}} === true ) {
               try {
-                const result = await github.rest.repos.createRelease({
+                const abc = await github.rest.repos.createRelease({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   tag_name: 'unique1',
@@ -74,7 +74,7 @@ jobs:
       - name: Return true or false
         id: set_output
         run: |
-          echo ${{ steps.create-release.outputs.result.result}}
+          echo ${{ fromJson(steps.create-release.outputs.result)}}
           if (${{ steps.create-release.outputs.result.result }} == true ); then
             echo "::set-output name=run_jobs::true"
             echo "::set-output name=notes::${{steps.create-release.outputs.result.note}}"
