@@ -23,9 +23,9 @@ jobs:
 
       - name: Generate Release Notes
         id: release_notes
-        uses: TriPSs/conventional-changelog-action@v3
+        uses: BobAnkh/auto-generate-changelog@v1
         with:
-          github-token: ${{ secrets.TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
