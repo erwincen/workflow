@@ -23,7 +23,8 @@ jobs:
 
       - name: Generate Release Notes
         id: release_notes
-        uses: cardinalby/git-get-release-action@v1
+        # uses: cardinalby/git-get-release-action@v1
+        uses: mikepenz/release-changelog-builder-action@{latest-release}
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
