@@ -37,7 +37,6 @@ jobs:
               repo: context.repo.repo,
               tag_name: 'unique'
             })
-            console.log(result)
 
             if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
               return false
@@ -54,6 +53,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 tag_name: 'unique1'
+                generate_release_notes: 'true'
               })
               console.log(result)
               return true
