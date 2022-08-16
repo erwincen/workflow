@@ -22,7 +22,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
       - name: Generate Release Notes
-        id: release_notes
+        id: myRequest
         # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
         # uses: scottbrenner/generate-changelog-action@master
@@ -30,11 +30,22 @@ jobs:
         #   GITHUB_TOKEN: ${{ secrets.Token }}
         # with:
         #   latest: true
-        run: |
-         curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token {{secrets.Token}}" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}'
+        # run: |
+        #  curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token {{secrets.Token}}" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}'
+        uses: fjogeleit/http-request-action@v1
+        with:
+          customHeaders: '{"Content-Type": "application/vnd.github+json", "Authorization": token {{secrets.Token} }'
+          url: https://api.github.com/repos/erwincen/workflow/releases/generate-notes
+          data: '{"tag_name":"v777777"}'
+          method: 'POST'
 
-      - name: print workspace id
-        run: echo ${{ toJSON(steps.release_notes) }}
+      - name: Show Response
+        run: |
+          echo ${{ steps.myRequest.outputs.response }}
+          echo ${{ fromJson(steps.myRequest.outputs.response).field_you_want_to_access }}
+
+      # - name: print workspace id
+      #   run: echo ${{ toJSON(steps.release_notes) }}
       # - name: parse-release-notes
       #   run: echo ${{ toJson(steps.release_notes.outputs) }}
 
