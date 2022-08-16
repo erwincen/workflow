@@ -41,23 +41,25 @@ jobs:
                   tag_name: 'unique'
                 })
                 console.log(result)
-                return result.data.body
+
+                if (result.data.body.includes('fix:') || result.data.body.includes('feat:') )
+                return true
               } catch (error) {
-                return error
+                return false
               }
 
-      - name: Create Release
-        # if: contains(steps.create-release-notes.outputs.result, ['fix:', 'feat:'])
-        uses: actions/github-script@v6
-        with:
-          script: |
-            console.log('aaa',steps.create-release-notes.outputs.result )
+      # - name: Create Release
+      #   # if: contains(steps.create-release-notes.outputs.result, ['fix:', 'feat:'])
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       console.log('aaa',steps.create-release-notes.outputs.result )
 
-      # - name: Show Response
-      #   run: echo ${{ steps.myRequest }}
+      - name: Show Response
+        run: echo ${{ steps.create-release-notes }}
 
-      # - name: Show Response 2
-      #   run: echo ${{ toJSON(steps.myRequest)}}
+      - name: Show Response 2
+        run: echo ${{ toJSON(steps.create-release-notes)}}
 
       # - name: print workspace id
       #   run: echo ${{ toJSON(steps.release_notes) }}
