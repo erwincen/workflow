@@ -57,18 +57,7 @@ jobs:
         with:
           script: |
             console.log('here', steps)
-            try {
-                const result = await github.rest.repos.createRelease({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  tag_name: 'releases/test1'
-                  draft: true
-                })
-                console.log(result)
 
-              } catch (error) {
-                return false
-              }
 
       # - name: Show Response
       #   run: echo ${{ steps.create-release-notes }}
