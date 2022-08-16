@@ -83,7 +83,8 @@ jobs:
           fi
 
   Deploy-Stage:
-    needs: Get-Commit
+    needs: [Get-Commit]
+    if: needs.Get-Commit.outputs.run_rest_jobs == 'true'
     runs-on: ubuntu-latest
     steps: 
       - name: testes
