@@ -72,7 +72,9 @@ jobs:
             }
 
   Deploy-Stage:
+    if: ${{ steps.create-release == true}}
     needs: Get-Commit
+
     runs-on: ubuntu-latest
     environment:
       name: TEST
