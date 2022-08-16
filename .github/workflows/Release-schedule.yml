@@ -47,7 +47,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            console.log(${{steps.release-notes.outputs}})
+            console.log(JSON.parse(${{steps.release-notes.outputs}}))
             if ( ${{steps.release-notes.outputs.result}} === true ) {
               const result = await github.rest.repos.createRelease({
                 owner: context.repo.owner,
