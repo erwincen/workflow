@@ -54,7 +54,7 @@ jobs:
 
       - name: Create Release
         id: create-release
-        if: ${{steps.create-release-notes.outputs.result == true}}
+        if: ${{steps.create-release-notes.outputs.result == 'true'}}
         uses: actions/github-script@v6
         with:
           script: |
