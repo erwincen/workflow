@@ -40,10 +40,10 @@ jobs:
       #   run: echo "::set-output name=body::$(workspaces.json)"
 
       - name: Show Response
-        run: echo ${{ steps.myRequest }}
+        run: echo ${{ steps.myRequest.response }}
 
       - name: Show Response 2
-        run: echo ${{ toJSON(steps.myRequest.outputs.body)}}
+        run: echo ${{ toJSON(steps.myRequest.outputs)}}
 
       # - name: print workspace id
       #   run: echo ${{ toJSON(steps.release_notes) }}
