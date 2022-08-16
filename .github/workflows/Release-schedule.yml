@@ -25,10 +25,7 @@ jobs:
         id: release_notes
         # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
-        uses: Requarks/changelog-action@v1
-        with:
-          token: ${{ secrets.Token }}
-          tag: releases/requarks
+        uses: scottbrenner/generate-changelog-action@master
         # env:
         #   GITHUB_TOKEN: ${{ secrets.Token }}
         # with:
