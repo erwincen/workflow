@@ -47,14 +47,11 @@ jobs:
               }
 
       - name: Create Release
-        if: contains(steps.create-release-notes.outputs.result, ['fix:', 'feat:'])
-        # https://github.com/softprops/action-gh-release dd
-        uses: softprops/action-gh-release@v1
-        with: 
-          generate_release_notes: true
-          tag_name: "releases/${{ steps.date.outputs.date }}"
-          token: "${{ secrets.TOKEN }}"
-          draft: true
+        # if: contains(steps.create-release-notes.outputs.result, ['fix:', 'feat:'])
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log('aaa',steps.create-release-notes.outputs.result )
 
       # - name: Show Response
       #   run: echo ${{ steps.myRequest }}
