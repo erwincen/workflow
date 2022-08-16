@@ -32,10 +32,11 @@ jobs:
           github-token: ${{ secrets.PAT }}
           debug: true
           script: |
-              await github.rest.repos.generateReleaseNotes({
+              await github.rest.repos.addLabels({
                 owner: @erwincen,
                 repo: workflow,
-                tag_name: unique
+                labels: ['Triage']
+                issue_number: 9,
               })
           # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
