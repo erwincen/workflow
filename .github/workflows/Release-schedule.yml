@@ -21,7 +21,7 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: print current
-        run: echo ${{ github.event.pull_request }}
+        run: echo ${{ toJson(github.event.pull_request) }}
       # - name: Generate Release Notes
       #   id: release_notes
 
