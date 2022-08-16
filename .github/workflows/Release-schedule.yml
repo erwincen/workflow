@@ -8,9 +8,9 @@ on:
   #   # https://crontab.guru/#0_13_*_*_TUE
   #   - cron: "20 23 * * *"
 
-# concurrency:
-#   group: deploy
-#   cancel-in-progress: true
+concurrency:
+  group: deploy
+  cancel-in-progress: true
 
 jobs:
   Get-Commit:
@@ -61,9 +61,11 @@ jobs:
               const result = await github.rest.repos.createRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                tag_name: 'unique'
+                tag_name: 'unique1'
               })
               console.log(result)
+            } else {
+              console.log('No new commit')
             }
 
 
@@ -88,14 +90,14 @@ jobs:
       #     token: "${{ secrets.TOKEN }}"
       #     draft: true
 
-  # Deploy-Stage:
-  #   needs: Get-Commit
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: TEST
-  #   steps:
-  #     - name: deploy_stage
-  #       run: echo deploy to stage
+  Deploy-Stage:
+    needs: Get-Commit
+    runs-on: ubuntu-latest
+    environment:
+      name: TEST
+    steps:
+      - name: deploy_stage
+        run: echo deploy to stage
    
   # Notify-Stage:
   #   needs: Deploy-Stage
