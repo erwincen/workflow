@@ -43,20 +43,8 @@ jobs:
               return false
             }
         
-
-
-      # - name: Create Release
-      #   # if: contains(steps.create-release-notes.outputs.result, ['fix:', 'feat:'])
-      #   uses: actions/github-script@v6
-      #   with:
-      #     script: |
-      #       console.log('aaa',steps.create-release-notes.outputs.result )
-
       - name: Create Release
         id: create-release
-        # if: ${{steps.create-release-notes.outputs.result == 'test'}}
-        # run: |
-        #   echo ${{steps.create-release-notes.outputs.result}}
         uses: actions/github-script@v6
         with:
           script: |
@@ -74,7 +62,7 @@ jobs:
               console.log('No new commit')
               return false
             }
-
+          
       - name: Return true or false
         id: set_output
         run: |
@@ -86,34 +74,28 @@ jobs:
 
   Deploy-Stage:
     needs: [Get-Commit]
-    if: needs.Get-Commit.outputs.run_rest_jobs == 'false'
+    if: needs.Get-Commit.outputs.run_rest_jobs == 'true'
     runs-on: ubuntu-latest
-    steps: 
-      - name: testes
-        run: echo ${{ toJson(needs.Get-Commit)}}
-  #   if: ${{ steps.create-release.outputs == true}}
-  #   needs: Get-Commit
-
-  #   environment:
-  #     name: TEST
-  #   steps:
-  #     - run: echo ${{ toJson(steps)}}
-  #     - name: deploy_stage
-  #       run: echo deploy to stage
-   
-  # Notify-Stage:
-  #   needs: Deploy-Stage
-  #   environment:
-  #     name: TEST
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: notify CS
-  #       uses: slackapi/slack-github-action@v1.21.0
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  #         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-  #       with:
-  #         payload: '{ "text": "1221" }'
+    environment:
+      name: TEST
+    steps:
+      - run: echo ${{ toJson(steps)}}
+      - name: deploy_stage
+        run: echo deploy to stage
+  
+  Notify-Stage:
+    needs: Deploy-Stage
+    environment:
+      name: TEST
+    runs-on: ubuntu-latest
+    steps:
+      - name: notify CS
+        uses: slackapi/slack-github-action@v1.21.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+        with:
+          payload: '{ "text": "1234" }'
 
 
   # Deploy-Prod:
