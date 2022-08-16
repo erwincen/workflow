@@ -27,7 +27,7 @@ jobs:
         id: myRequest
         uses: TriPSs/conventional-changelog-action@v3 
         with: 
-          github-token: ${{ secrets.Token } 
+          github-token: ${{ secrets.Token }}
           output-file: "false" 
         # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
