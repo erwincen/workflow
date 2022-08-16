@@ -28,12 +28,17 @@ jobs:
 
         id: myRequest
         uses: actions/github-script@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.Token }}
         with: 
-          github-token: ${{ secrets.Token }}
+          # github-token: ${{ secrets.Token }}
           debug: true
           script: |
-            const { owner, repo } = context.repo
-            console.log(`The owner of ${repo} is ${owner}`)
+              await github.rest.repos.generateReleaseNotes({
+                owner: @erwincen,
+                repo: workflow,
+                tag_name: unique
+              })
           # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
         # uses: scottbrenner/generate-changelog-action@master
