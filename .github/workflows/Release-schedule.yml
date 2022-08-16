@@ -22,44 +22,52 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Generate Release Notes
         id: release_notes
-        uses: cardinalby/git-get-release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+
+        uses: ffurrer2/extract-release-notes@v1
         with:
-          latest: true
+          release_notes_file: RELEASE_NOTES.md
 
-      - name: Create Release
-        if: contains(steps.release_notes.outputs.body, 'fix:')
-        # https://github.com/softprops/action-gh-release dd
-        uses: softprops/action-gh-release@v1
-        with: 
-          generate_release_notes: true
-          tag_name: "releases/${{ steps.date.outputs.date }}"
-          token: "${{ secrets.TOKEN }}"
-          draft: true
+      - name: parse-release-notes
+        run: echo ${{ steps.extract-release-notes.outputs.release_notes }}
 
-  Deploy-Stage:
-    needs: Get-Commit
-    runs-on: ubuntu-latest
-    environment:
-      name: TEST
-    steps:
-      - name: deploy_stage
-        run: echo deploy to stage
+        # uses: cardinalby/git-get-release-action@v1
+        # env:
+        #   GITHUB_TOKEN: ${{ github.token }}
+        # with:
+        #   latest: true
+
+      # - name: Create Release
+      #   # if: contains(steps.release_notes.outputs.body, 'fix:')
+      #   # https://github.com/softprops/action-gh-release dd
+      #   uses: softprops/action-gh-release@v1
+      #   with: 
+      #     generate_release_notes: true
+      #     tag_name: "releases/${{ steps.date.outputs.date }}"
+      #     token: "${{ secrets.TOKEN }}"
+      #     draft: true
+
+  # Deploy-Stage:
+  #   needs: Get-Commit
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: TEST
+  #   steps:
+  #     - name: deploy_stage
+  #       run: echo deploy to stage
    
-  Notify-Stage:
-    needs: Deploy-Stage
-    environment:
-      name: TEST
-    runs-on: ubuntu-latest
-    steps:
-      - name: notify CS
-        uses: slackapi/slack-github-action@v1.21.0
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-        with:
-          payload: '{ "text": "1221" }'
+  # Notify-Stage:
+  #   needs: Deploy-Stage
+  #   environment:
+  #     name: TEST
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: notify CS
+  #       uses: slackapi/slack-github-action@v1.21.0
+  #       env:
+  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  #         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+  #       with:
+  #         payload: '{ "text": "1221" }'
 
 
   # Deploy-Prod:
