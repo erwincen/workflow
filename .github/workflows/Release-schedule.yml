@@ -96,6 +96,7 @@ jobs:
     environment:
       name: TEST
     steps:
+      - run: echo ${{ toJson(steps.create-release)}}
       - name: deploy_stage
         run: echo deploy to stage
    
