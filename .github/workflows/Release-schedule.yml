@@ -75,7 +75,7 @@ jobs:
       - name: Return true or false
         id: set_output
         run: |
-          if ${{ steps.create-release.outputs.result.result }} == true) ] 
+          if ${{ steps.create-release.outputs.result.result }} == true ] 
           then
             echo "::set-output name=run_jobs::true"
             echo "::set-output name=notes::${{steps.create-release.outputs.result.note}}"
