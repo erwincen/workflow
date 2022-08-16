@@ -23,7 +23,7 @@ jobs:
 
       - name: Generate Release Notes
         id: release_notes
-        uses: metcalfc/changelog-generator@v3.0.0
+        uses: heineiuo/create-changelogs@master
         with:
           myToken: ${{ secrets.TOKEN }}
         env:
