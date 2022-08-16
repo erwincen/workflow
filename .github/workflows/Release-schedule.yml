@@ -40,8 +40,8 @@ jobs:
                   repo: context.repo.repo,
                   tag_name: 'unique'
                 })
-
-                return JSON.parse(result)
+                console.log(result)
+                return result.body
               } catch (error) {
                 return error
               }
