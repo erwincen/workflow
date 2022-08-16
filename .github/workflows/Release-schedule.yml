@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: TEST
+      
     steps:
       - uses: actions/checkout@v2
       - name: Get current date
@@ -28,16 +29,14 @@ jobs:
         id: myRequest
         uses: actions/github-script@v5
         with: 
-          github-token: ${{ secrets.Token }}
+          GITHUB_TOKEN: ${{ secrets.Token }}
           debug: true
           script: |
-              const a = await github.rest.repos.generateReleaseNotes({
+              await github.rest.repos.generateReleaseNotes({
                 owner: @erwincen,
                 repo: workflow,
                 tag_name: unique
               })
-              console.log('response', a)
-              return a
           # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
         # uses: scottbrenner/generate-changelog-action@master
