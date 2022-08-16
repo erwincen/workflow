@@ -25,6 +25,10 @@ jobs:
 
       - name: Generate Release Notes
         id: myRequest
+        uses: TriPSs/conventional-changelog-action@v3 
+        with: 
+          github-token: ${{ secrets.Token } 
+          output-file: "false" 
         # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
         # uses: scottbrenner/generate-changelog-action@master
@@ -32,18 +36,18 @@ jobs:
         #   GITHUB_TOKEN: ${{ secrets.Token }}
         # with:
         #   latest: true
-        run: |
-          curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.Token }}" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}'" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}' -o test.json
+        # run: |
+        #   curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.Token }}" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}'" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}' -o test.json
 
-      - name: read workspace body
-        id: workspace 
-        run: echo "::set-output name=body::$(test.json)"
+      # - name: read workspace body
+      #   id: workspace 
+      #   run: echo "::set-output name=body::$(test.json)"
 
       - name: Show Response
-        run: echo ${{ steps.workspace.outputs }}
+        run: echo ${{ steps.myRequest.outputs }}
 
       - name: Show Response 2
-        run: echo ${{ toJSON(steps.workspace.outputs)}}
+        run: echo ${{ toJSON(steps.myRequest.outputs)}}
 
       # - name: print workspace id
       #   run: echo ${{ toJSON(steps.release_notes) }}
