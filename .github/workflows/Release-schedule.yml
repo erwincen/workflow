@@ -29,7 +29,7 @@ jobs:
         with: 
           script: |
             github.rest.repos.generateReleaseNotes({
-              owner: erwincen,
+              owner: @erwincen,
               repo: workflow,
               tag_name: unique
             })
