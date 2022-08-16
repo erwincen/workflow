@@ -64,8 +64,11 @@ jobs:
                 tag_name: 'unique1'
               })
               console.log(result)
+              return true
             } else {
+
               console.log('No new commit')
+              return false
             }
 
 
