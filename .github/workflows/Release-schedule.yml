@@ -39,7 +39,7 @@ jobs:
             })
 
             if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
-              return true
+              return body
             }
         
       - name: Create Release
@@ -47,7 +47,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const test = true
+            console.log(${{steps.release-notes.outputs}})
             if ( ${{steps.release-notes.outputs.result}} === true ) {
               const result = await github.rest.repos.createRelease({
                 owner: context.repo.owner,
@@ -70,71 +70,71 @@ jobs:
             echo "::set-output name=run_jobs::false"
           fi
 
-  No-Release:
-    needs: Check-Release
-    if: needs.Check-Release.outputs.run_rest_jobs == 'false'
-    runs-on: ubuntu-latest
-    environment:
-      name: TEST
-    steps:
-      - name: notify CS
-        uses: slackapi/slack-github-action@v1.21.0
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-        with:
-          payload: '{ "text": "No release" }'
+  # No-Release:
+  #   needs: Check-Release
+  #   if: needs.Check-Release.outputs.run_rest_jobs == 'false'
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: TEST
+  #   steps:
+  #     - name: notify CS
+  #       uses: slackapi/slack-github-action@v1.21.0
+  #       env:
+  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  #         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+  #       with:
+  #         payload: '{ "text": "No release" }'
 
-  Deploy-Stage:
-    needs: Check-Release
-    if: needs.Check-Release.outputs.run_rest_jobs == 'true'
-    runs-on: ubuntu-latest
-    environment:
-      name: TEST
-    steps:
-      - run: echo ${{ toJson(steps)}}
-      - name: deploy_stage
-        run: echo deploy to stage
+  # Deploy-Stage:
+  #   needs: Check-Release
+  #   if: needs.Check-Release.outputs.run_rest_jobs == 'true'
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: TEST
+  #   steps:
+  #     - run: echo ${{ toJson(steps)}}
+  #     - name: deploy_stage
+  #       run: echo deploy to stage
   
-  Notify-Stage:
-    needs: Deploy-Stage
-    environment:
-      name: TEST
-    runs-on: ubuntu-latest
-    steps:
-      - name: notify CS
-        uses: slackapi/slack-github-action@v1.21.0
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          channel-id: 'CPH9L6QF6'
-          slack-message: "Deployed to stage"
+  # Notify-Stage:
+  #   needs: Deploy-Stage
+  #   environment:
+  #     name: TEST
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: notify CS
+  #       uses: slackapi/slack-github-action@v1.21.0
+  #       env:
+  #         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  #       with:
+  #         channel-id: 'CPH9L6QF6'
+  #         slack-message: "Deployed to stage"
 
-  Deploy-Prod:
-    needs: Deploy-Stage
-    runs-on: ubuntu-latest
-    environment:
-      name: Prod
-    steps:
-      - name: notify CS
-        run: echo maintenance started
-      - name: deploy_Prod
-        run: echo deploy to Prod
+  # Deploy-Prod:
+  #   needs: Deploy-Stage
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: Prod
+  #   steps:
+  #     - name: notify CS
+  #       run: echo maintenance started
+  #     - name: deploy_Prod
+  #       run: echo deploy to Prod
   
-  Notify-Prod:
-    needs: Deploy-Prod
-    runs-on: ubuntu-latest
-    steps:
-      - name: notify_Prod
-        run: echo notify to Prod
-      - name: notify CS
-        run: echo maintenance completed
-      - name: notify CS
-        uses: slackapi/slack-github-action@v1.21.0
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          payload: '{ "text": ":tada: Deployed to Prod :tada:" }'
+  # Notify-Prod:
+  #   needs: Deploy-Prod
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: notify_Prod
+  #       run: echo notify to Prod
+  #     - name: notify CS
+  #       run: echo maintenance completed
+  #     - name: notify CS
+  #       uses: slackapi/slack-github-action@v1.21.0
+  #       env:
+  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  #       with:
+  #         payload: '{ "text": ":tada: Deployed to Prod :tada:" }'
 
 
 # name: Cron
