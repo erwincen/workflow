@@ -55,11 +55,29 @@ jobs:
       #     script: |
       #       console.log('aaa',steps.create-release-notes.outputs.result )
 
-      - name: Show Response
-        run: echo ${{ steps.create-release-notes }}
+      - name: Create Release
+        if: steps.create-release-notes.outputs.result == true
+        uses: actions/github-script@v6
+        with:
+          script: |
+            try {
+                const result = await github.rest.repos.createRelease({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  tag_name: 'releases/test1'
+                  draft: true
+                })
+                console.log(result)
 
-      - name: Show Response 2
-        run: echo ${{ toJSON(steps.create-release-notes)}}
+              } catch (error) {
+                return false
+              }
+
+      # - name: Show Response
+      #   run: echo ${{ steps.create-release-notes }}
+
+      # - name: Show Response 2
+      #   run: echo ${{ toJSON(steps.create-release-notes)}}
 
       # - name: print workspace id
       #   run: echo ${{ toJSON(steps.release_notes) }}
