@@ -30,7 +30,7 @@ jobs:
       #   uses: ffurrer2/extract-release-notes@v1
 
       - name: parse-release-notes
-        run: echo ${{ steps.release_notes.outputs.release_notes }}
+        run: echo ${{ steps.release_notes.outputs }}
 
         # uses: cardinalby/git-get-release-action@v1
         # env:
