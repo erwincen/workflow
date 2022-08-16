@@ -26,7 +26,7 @@ jobs:
 
       - name: Generate Release Notes
 
-        id: myRequest
+        id: create-release-notes
         uses: actions/github-script@v6
         # env:
         #   GITHUB_TOKEN: ${{ secrets.Token }}
@@ -46,11 +46,21 @@ jobs:
                 return error
               }
 
-      - name: Show Response
-        run: echo ${{ steps.myRequest }}
+      - name: Create Release
+        if: contains(steps.create-release-notes.outputs.result, ['fix:', 'feat:'])
+        # https://github.com/softprops/action-gh-release dd
+        uses: softprops/action-gh-release@v1
+        with: 
+          generate_release_notes: true
+          tag_name: "releases/${{ steps.date.outputs.date }}"
+          token: "${{ secrets.TOKEN }}"
+          draft: true
 
-      - name: Show Response 2
-        run: echo ${{ toJSON(steps.myRequest)}}
+      # - name: Show Response
+      #   run: echo ${{ steps.myRequest }}
+
+      # - name: Show Response 2
+      #   run: echo ${{ toJSON(steps.myRequest)}}
 
       # - name: print workspace id
       #   run: echo ${{ toJSON(steps.release_notes) }}
