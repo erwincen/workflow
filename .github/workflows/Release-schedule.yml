@@ -41,6 +41,7 @@ jobs:
               })
 
               console.log('result', result)
+              return result
           # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
         # uses: scottbrenner/generate-changelog-action@master
