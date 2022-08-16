@@ -24,12 +24,12 @@ jobs:
       - name: Generate Release Notes
         id: release_notes
         # uses: cardinalby/git-get-release-action@v1
-        uses: mikepenz/release-changelog-builder-action@v3.3.0
-        # uses: metcalfc/changelog-generator@v3.0.0
-        # with:
-        #   myToken: ${{ secrets.GITHUB_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.Token }}
+        # uses: mikepenz/release-changelog-builder-action@v3.3.0
+        uses: metcalfc/changelog-generator@v3.0.0
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.Token }}
         # with:
         #   latest: true
 
