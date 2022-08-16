@@ -63,35 +63,40 @@ jobs:
               return false
             }
           
+      # echo ${{ toJson(steps.release-notes.outputs.result) }}
       - name: Return true or false
         id: set_output
-        run: echo ${{ toJson(steps.release-notes.outputs.result) }}
-      
+        run: |
+          if ${{ steps.create-release.outputs.result == 'true'}}; then
+            echo "::set-output name=run_jobs::true"
+          else
+            echo "::set-output name=run_jobs::false"
+          fi
 
-  # Deploy-Stage:
-  #   needs: [Get-Commit]
-  #   if: needs.Get-Commit.outputs.run_rest_jobs == 'true'
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: TEST
-  #   steps:
-  #     - run: echo ${{ toJson(steps)}}
-  #     - name: deploy_stage
-  #       run: echo deploy to stage
+  Deploy-Stage:
+    needs: [Get-Commit]
+    if: needs.Get-Commit.outputs.run_rest_jobs == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: TEST
+    steps:
+      - run: echo ${{ toJson(steps)}}
+      - name: deploy_stage
+        run: echo deploy to stage
   
-  # Notify-Stage:
-  #   needs: Deploy-Stage
-  #   environment:
-  #     name: TEST
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: notify CS
-  #       uses: slackapi/slack-github-action@v1.21.0
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  #         SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
-  #       with:
-  #         payload: '{ "text": "1234" }'
+  Notify-Stage:
+    needs: Deploy-Stage
+    environment:
+      name: TEST
+    runs-on: ubuntu-latest
+    steps:
+      - name: notify CS
+        uses: slackapi/slack-github-action@v1.21.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+        with:
+          payload: '{ "text": "1234" }'
 
 
   # Deploy-Prod:
