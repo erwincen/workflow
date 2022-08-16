@@ -28,7 +28,7 @@ jobs:
         uses: actions/github-script@v6
         with: 
           script: |
-            github.rest.repos.generateReleaseNotes({
+            await github.rest.repos.generateReleaseNotes({
               owner: @erwincen,
               repo: workflow,
               tag_name: unique
