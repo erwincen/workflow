@@ -39,6 +39,8 @@ jobs:
                 tag_name: 'unique'
               })
 
+              console.log('result', result.data.body)
+
               if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
                 return true
               }
@@ -53,7 +55,7 @@ jobs:
           script: |
             if ( ${{steps.release-notes.outputs.result}} === true ) {
               try {
-                await github.rest.repos.createRelease({
+                const result = await github.rest.repos.createRelease({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   tag_name: 'unique1',
@@ -61,7 +63,7 @@ jobs:
                   draft: true,
                 })
 
-                console.log(result)
+                console.log('create', result)
                 return true
               
               } catch (e) {
