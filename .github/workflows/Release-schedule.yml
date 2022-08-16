@@ -48,7 +48,7 @@ jobs:
         with:
           script: |
             console.log(${{steps.release-notes.outputs}})
-            const ab = ${{steps.release-notes.outputs}}
+            const ab = {...${{steps.release-notes.outputs}}}
 
             console.log('this', ab)
 
