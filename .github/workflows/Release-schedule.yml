@@ -76,6 +76,8 @@ jobs:
     needs: Check-Release
     if: needs.Check-Release.outputs.run_rest_jobs == 'false'
     runs-on: ubuntu-latest
+    environment:
+      name: TEST
     steps:
       - name: notify CS
         uses: slackapi/slack-github-action@v1.21.0
