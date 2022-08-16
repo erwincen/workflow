@@ -41,7 +41,7 @@ jobs:
                   tag_name: 'unique'
                 })
                 console.log(result)
-                return result.body
+                return result.data.body
               } catch (error) {
                 return error
               }
