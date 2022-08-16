@@ -23,20 +23,14 @@ jobs:
 
       - name: Generate Release Notes
         id: release_notes
-        uses: heineiuo/create-changelogs@master
+        uses: cardinalby/git-get-release-action@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-
-      #   uses: ffurrer2/extract-release-notes@v1
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          latest: true
 
       - name: parse-release-notes
         run: echo ${{ toJson(steps.release_notes.outputs) }}
-
-        # uses: cardinalby/git-get-release-action@v1
-        # env:
-        #   GITHUB_TOKEN: ${{ github.token }}
-        # with:
-        #   latest: true
 
       # - name: Create Release
       #   # if: contains(steps.release_notes.outputs.body, 'fix:')
