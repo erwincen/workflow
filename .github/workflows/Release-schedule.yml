@@ -74,7 +74,6 @@ jobs:
       - name: Return true or false
         id: set_output
         run: |
-          echo ${{ steps.create-release.outputs.result }}
           if ${{ steps.create-release.outputs.result }} == false; then
             echo "::set-output name=run_jobs::false"
           else
@@ -97,16 +96,16 @@ jobs:
   #       with:
   #         payload: '{ "text": "No release" }'
 
-  # Deploy-Stage:
-  #   needs: Check-Release
-  #   if: needs.Check-Release.outputs.run_rest_jobs == 'true'
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: TEST
-  #   steps:
-  #     - run: echo ${{ toJson(steps)}}
-  #     - name: deploy_stage
-  #       run: echo deploy to stage
+  Deploy-Stage:
+    needs: Check-Release
+    if: needs.Check-Release.outputs.run_rest_jobs == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: TEST
+    steps:
+      - run: echo ${{ toJson(needs.Check-Release.outputs)}}
+      - name: deploy_stage
+        run: echo deploy to stage
   
   # Notify-Stage:
   #   needs: Deploy-Stage
