@@ -40,8 +40,10 @@ jobs:
                 console.log(result)
 
                 if (result.data.body.includes('fix:') || result.data.body.includes('feat:') )
+                console.log('return true')
                 return true
               } catch (error) {
+                console.log('return false')
                 return false
               }
 
@@ -55,7 +57,7 @@ jobs:
       - name: Create Release
         id: create-release
         # run: echo ${{steps.create-release-notes.outputs.result}}
-        if: ${{steps.create-release-notes.outputs.result == true}}
+        if: ${{steps.create-release-notes.outputs.result == false}}
         uses: actions/github-script@v6
         with:
           script: |
