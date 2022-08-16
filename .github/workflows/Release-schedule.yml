@@ -62,7 +62,6 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 tag_name: 'unique'
-                generate_release_notes: true
               })
               console.log(result)
             }
