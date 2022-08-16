@@ -63,18 +63,20 @@ jobs:
                 })
 
                 console.log('create', result)
-                return result.data.body
+                const note = result.data.body
+                return {result: true, note: note}
               } catch (e) {
-                return false
+                return {result: false}
               }
             } else {
-              return false
+              return {result: false}
             }
           
       - name: Return true or false
         id: set_output
         run: |
-          if [ contains(${{ steps.create-release.outputs.result }}, 'github') ] 
+          echo ${{ toJson(steps.create-release.outputs.result)}}
+          if ${{ steps.create-release.outputs.result.result }} == true) ] 
           then
             echo "::set-output name=run_jobs::true"
             echo "::set-output name=notes::${{steps.create-release.outputs.result}}"
