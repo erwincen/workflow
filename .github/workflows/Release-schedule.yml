@@ -56,10 +56,8 @@ jobs:
                 generate_release_notes: true,
                 draft: true,
               })
-              console.log(result)
               return true
             } else {
-              console.log('No new commit')
               return false
             }
           
@@ -107,10 +105,10 @@ jobs:
       - name: notify CS
         uses: slackapi/slack-github-action@v1.21.0
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          payload: '{ "text": "Deployed to stage" }'
+          channel-id: 'CPH9L6QF6'
+          slack-message: "Deployed to stage"
 
   Deploy-Prod:
     needs: Deploy-Stage
