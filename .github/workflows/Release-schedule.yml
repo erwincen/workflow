@@ -100,30 +100,30 @@ jobs:
   #       with:
   #         payload: '{ "text": "No release" }'
 
-  Deploy-Stage:
-    needs: Check-Release
-    if: needs.Check-Release.outputs.run_rest_jobs == 'true'
-    runs-on: ubuntu-latest
-    environment:
-      name: TEST
-    steps:
-      - run: echo ${{ toJson(needs.Check-Release.outputs)}}
-      - name: deploy_stage
-        run: echo deploy to stage
+  # Deploy-Stage:
+  #   needs: Check-Release
+  #   if: needs.Check-Release.outputs.run_rest_jobs == 'true'
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: TEST
+  #   steps:
+  #     - run: echo ${{ toJson(needs.Check-Release.outputs)}}
+  #     - name: deploy_stage
+  #       run: echo deploy to stage
   
   # Notify-Stage:
   #   needs: Deploy-Stage
   #   environment:
   #     name: TEST
   #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: notify CS
-  #       uses: slackapi/slack-github-action@v1.21.0
-  #       env:
-  #         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-  #       with:
-  #         channel-id: 'CPH9L6QF6'
-  #         slack-message: "Deployed to stage"
+    # steps:
+    #   - name: notify CS
+    #     uses: slackapi/slack-github-action@v1.21.0
+    #     env:
+    #       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+    #     with:
+    #       channel-id: 'CPH9L6QF6'
+    #       slack-message: "Deployed to stage"
 
   # Deploy-Prod:
   #   needs: Deploy-Stage
@@ -136,20 +136,25 @@ jobs:
   #     - name: deploy_Prod
   #       run: echo deploy to Prod
   
-  # Notify-Prod:
-  #   needs: Deploy-Prod
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: notify_Prod
-  #       run: echo notify to Prod
-  #     - name: notify CS
-  #       run: echo maintenance completed
-  #     - name: notify CS
-  #       uses: slackapi/slack-github-action@v1.21.0
-  #       env:
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  #       with:
-  #         payload: '{ "text": ":tada: Deployed to Prod :tada:" }'
+  Notify-Prod:
+    needs: [Check-Release]
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo ${{ toJson(needs.Check-Release.outputs)}}
+      - name: deploy_stage
+        run: echo deploy to stage
+  
+      # - name: notify_Prod
+      #   run: echo notify to Prod
+      # - name: notify CS
+      #   run: echo maintenance completed
+      # - name: notify CS
+      #   uses: slackapi/slack-github-action@v1.21.0
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #   with:
+      #     payload: '{ "text": ":tada: Deployed to Prod :tada:" }'
 
 
 # name: Cron
