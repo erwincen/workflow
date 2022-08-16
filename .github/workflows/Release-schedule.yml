@@ -75,7 +75,7 @@ jobs:
 
       - name: Return true or false
         id: set_output
-        run: echo ${{steps.create-release}}
+        run: echo ${{ toJson(steps.create-release)}}
 
   # Deploy-Stage:
   #   if: ${{ steps.create-release.outputs == true}}
