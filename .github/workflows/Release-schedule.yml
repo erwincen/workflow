@@ -20,13 +20,15 @@ jobs:
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-      - name: Generate Release Notes
-        id: release_notes
+      - name: print current
+        run: echo ${{ github.event.pull_request}}
+      # - name: Generate Release Notes
+      #   id: release_notes
 
-        uses: ffurrer2/extract-release-notes@v1
+      #   uses: ffurrer2/extract-release-notes@v1
 
-      - name: parse-release-notes
-        run: echo ${{ steps.release_notes.outputs.release_notes }}
+      # - name: parse-release-notes
+      #   run: echo ${{ steps.release_notes.outputs.release_notes }}
 
         # uses: cardinalby/git-get-release-action@v1
         # env:
