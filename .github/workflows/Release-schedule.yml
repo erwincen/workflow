@@ -28,15 +28,16 @@ jobs:
 
         id: myRequest
         uses: actions/github-script@v5
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.Token }}
         with: 
-          github-token: ${{secrets.PAT}}
+          github-token: ${{ secrets.PAT }}
           debug: true
           script: |
-              await github.rest.repos.addLabels({
-                owner: @erwincen,
-                repo: workflow,
-                labels: ['Triage']
-                issue_number: 9,
+              await github.rest.repos.generateReleaseNotes({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: 'unique'
               })
           # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
