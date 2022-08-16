@@ -31,7 +31,7 @@ jobs:
         # env:
         #   GITHUB_TOKEN: ${{ secrets.Token }}
         with: 
-          github-token: ${{ secrets.PAT }}
+          # github-token: ${{ secrets.PAT }}
           debug: true
           script: |
               try {
@@ -45,20 +45,6 @@ jobs:
               } catch (error) {
                 return error
               }
-
-          # uses: cardinalby/git-get-release-action@v1
-        # uses: mikepenz/release-changelog-builder-action@v3.3.0
-        # uses: scottbrenner/generate-changelog-action@master
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.Token }}
-        # with:
-        #   latest: true
-        # run: |
-        #   curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token ${{ secrets.Token }}" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}'" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}' -o test.json
-
-      # - name: read workspace body
-      #   id: workspace 
-      #   run: echo "::set-output name=body::$(test.json)"
 
       - name: Show Response
         run: echo ${{ steps.myRequest }}
