@@ -25,7 +25,6 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
       - name: Generate Release Notes
-
         id: create-release-notes
         uses: actions/github-script@v6
         with: 
@@ -39,7 +38,7 @@ jobs:
             console.log(result)
 
             if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
-              return true
+              return 'test'
             }
 
       # - name: Create Release
@@ -51,7 +50,7 @@ jobs:
 
       - name: Create Release
         id: create-release
-        if: ${{steps.create-release-notes.outputs.result == true}}
+        # if: ${{steps.create-release-notes.outputs.result == true}}
         run: |
           echo ${{steps.create-release-notes.outputs.result}}
         # uses: actions/github-script@v6
