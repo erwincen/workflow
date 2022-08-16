@@ -23,7 +23,9 @@ jobs:
 
       - name: Generate Release Notes
         id: release_notes
-        uses: Bullrich/generate-release-changelog@master
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
