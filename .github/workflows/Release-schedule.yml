@@ -63,11 +63,14 @@ jobs:
                 })
 
                 const note = result.data.body
+                console.log('note', note)
                 return {result: true, note: note}
               } catch (e) {
+                console.log('error',e)
                 return {result: false}
               }
             } else {
+              console.log('else***')
               return {result: false}
             }
           
