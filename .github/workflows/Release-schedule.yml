@@ -56,10 +56,10 @@ jobs:
       #   run: echo "::set-output name=body::$(test.json)"
 
       - name: Show Response
-        run: echo ${{ steps.myRequest.outputs }}
+        run: echo ${{ steps.myRequest }}
 
       - name: Show Response 2
-        run: echo ${{ toJSON(steps.myRequest.outputs)}}
+        run: echo ${{ toJSON(steps.myRequest)}}
 
       # - name: print workspace id
       #   run: echo ${{ toJSON(steps.release_notes) }}
