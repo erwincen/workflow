@@ -28,10 +28,8 @@ jobs:
 
         id: myRequest
         uses: actions/github-script@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.Token }}
         with: 
-          # github-token: ${{ secrets.Token }}
+          github-token: ${{ secrets.PAT }}
           debug: true
           script: |
               await github.rest.repos.generateReleaseNotes({
