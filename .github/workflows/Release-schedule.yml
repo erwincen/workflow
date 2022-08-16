@@ -15,7 +15,6 @@ on:
 jobs:
   Get-Commit:
     runs-on: ubuntu-latest
-    env: 
     steps:
       - uses: actions/checkout@v2
       - name: Get current date
@@ -32,7 +31,7 @@ jobs:
         # with:
         #   latest: true
         run: |
-         curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token {{secrets.Token}}" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}' -o notes.json
+         curl -X POST -H "Accept: application/vnd.github+json" -H "Authorization: token {{secrets.Token}}" https://api.github.com/repos/erwincen/workflow/releases/generate-notes -d '{"tag_name":"v1.0.0"}'
 
       - name: print workspace id
         run: echo ${{ steps.release_notes }}
