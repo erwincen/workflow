@@ -39,7 +39,7 @@ jobs:
             })
 
             if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
-              return false
+              return true
             }
         
       - name: Create Release
@@ -126,6 +126,8 @@ jobs:
   Notify-Prod:
     needs: Deploy-Prod
     runs-on: ubuntu-latest
+    environment:
+      name: Prod
     steps:
       - name: notify_Prod
         run: echo notify to Prod
