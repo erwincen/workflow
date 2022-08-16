@@ -29,13 +29,13 @@ jobs:
         id: myRequest
         uses: actions/github-script@v5
         with: 
-          GITHUB_TOKEN: ${{ secrets.Token }}
+          github-token: ${{ secrets.Token }}
           debug: true
           script: |
-              await github.rest.repos.generateReleaseNotes({
+              await github.rest.repos.get({
                 owner: @erwincen,
                 repo: workflow,
-                tag_name: unique
+                # tag_name: unique
               })
           # uses: cardinalby/git-get-release-action@v1
         # uses: mikepenz/release-changelog-builder-action@v3.3.0
