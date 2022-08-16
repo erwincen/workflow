@@ -50,7 +50,7 @@ jobs:
 
       - name: Create Release
         id: create-release
-        # if: ${{steps.create-release-notes.outputs.result == true}}
+        if: ${{steps.create-release-notes.outputs.result == 'test'}}
         run: |
           echo ${{steps.create-release-notes.outputs.result}}
         # uses: actions/github-script@v6
