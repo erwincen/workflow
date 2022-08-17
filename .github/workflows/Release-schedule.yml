@@ -55,7 +55,7 @@ jobs:
     
   Create-Release:
     needs: Check-Release
-    if: needs.Check-Release.outputs.run_rest_jobs == true
+    if: needs.Check-Release.outputs.run_rest_jobs == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Get current date
@@ -83,13 +83,13 @@ jobs:
       
 
       - name: Write to file
-        if: ${{ fromJson(steps.create-release.outputs.result).result }} == true
+        if: ${{ fromJson(steps.create-release.outputs.result).result }} == 'true'
         env: 
           JSON: ${{ toJson(steps.create-release.outputs.result)}}
         run: echo ${{ env.JSON }} >> releaseNote.txt
 
       - name: Upload file
-        if: ${{ fromJson(steps.create-release.outputs.result).result }} == true
+        if: ${{ fromJson(steps.create-release.outputs.result).result }} == 'true'
         uses: actions/upload-artifact@v3
         with:
           name: releaseNote
@@ -98,7 +98,7 @@ jobs:
         
   No-Release:
     needs: Check-Release
-    if: needs.Check-Release.outputs.run_rest_jobs == false
+    if: needs.Check-Release.outputs.run_rest_jobs == 'false'
     runs-on: ubuntu-latest
     environment:
       name: TEST
