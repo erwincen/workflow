@@ -74,7 +74,7 @@ jobs:
               return {result: false}
             }
 
-      - run: echo "ABC=${{ fromJson(steps.create-release.outputs.result).notes }}"" >> $GITHUB_ENV
+      - run: echo "ABC=${{ fromJson(steps.create-release.outputs.result).notes }}" >> $GITHUB_ENV
       - run: echo ${{ env.ABC }}
       - name: Return true or false
         id: set_output
