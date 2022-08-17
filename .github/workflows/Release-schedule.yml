@@ -80,7 +80,7 @@ jobs:
         run: |
           if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
             echo "::set-output name=run_jobs::true"
-            echo "${{ fromJson(steps.create-release.outputs.result).notes }}" >> releaseNote.txt
+            echo "${{ fromJson(steps.create-release.outputs.result).notes }}" >> releaseNoteText
           else
             echo "::set-output name=run_jobs::false"
           fi
@@ -89,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: releaseNote
-          path: releaseNote.txt
+          path: releaseNoteText
 
 
   # No-Release:
@@ -160,7 +160,7 @@ jobs:
           name: releaseNote
       - name: Print the final result
         id: result
-        run: echo ::set-output name=release::$(cat releaseNote.txt)
+        run: echo ::set-output name=release::$(cat releaseNoteText)
 
       - run: echo ${{ steps.result.outputs.release}}
 
