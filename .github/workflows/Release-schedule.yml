@@ -160,8 +160,7 @@ jobs:
           name: releaseNote
       - name: Print the final result
         id: result
-        run: |
-            run: echo ::set-output name=release::$(cat releaseNote.txt)
+        run: echo ::set-output name=release::$(cat releaseNote.txt)
 
 
       - name: testing 
