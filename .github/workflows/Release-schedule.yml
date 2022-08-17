@@ -63,6 +63,7 @@ jobs:
                 })
 
                 const body = result.data.body
+                console.log(body)
                 return {result: true, notes: body}
               } catch (e) {
                 console.log('error',e)
