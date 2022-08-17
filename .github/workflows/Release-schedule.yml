@@ -77,8 +77,8 @@ jobs:
       - name: Return true or false
         id: set_output
         run: |
-          echo "TEST=${{ fromJson(steps.create-release.outputs.result).result }}"
-          echo TEST
+          echo "TEST=${{ fromJson(steps.create-release.outputs.result).notes }}"
+          echo ${{ TEST }} 
           if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
             echo "::set-output name=run_jobs::true"
             echo "::set-output name=notes::${{ steps.create-release.outputs.result }}"
