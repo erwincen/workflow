@@ -164,7 +164,7 @@ jobs:
         shell: bash
         run: |
           value=`cat releaseNote.txt`
-          echo "ABC=$value" > $GITHUB_ENV
+          echo "ABC=$value" >> $GITHUB_ENV
 
       - name: notify CS
         run: echo ${{ env }}
