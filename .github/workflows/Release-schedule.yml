@@ -1,52 +1,135 @@
 name: Dev Deploy
 
 on:
-  schedule:
-    # https://crontab.guru/#0_13_*_*_TUE
-    - cron: "20 23 * * *"
+  pull_request:
+    branches:
+      - main
+  # schedule:
+  #   # https://crontab.guru/#0_13_*_*_TUE
+  #   - cron: "20 23 * * *"
 
 concurrency:
   group: deploy
   cancel-in-progress: true
 
 jobs:
-  Get-Commit:
+  Check-Release:
     runs-on: ubuntu-latest
+    outputs:
+      run_rest_jobs: ${{ steps.set_output.outputs.run_jobs }}
+    environment:
+      name: TEST
+      
     steps:
       - uses: actions/checkout@v2
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-      - name: Generate Release Notes
-        id: release_notes
-        uses: cardinalby/git-get-release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          latest: true
 
-      - name: Create Release
-        if: contains(steps.release_notes.outputs.body, 'fix:')
-        # https://github.com/softprops/action-gh-release dd
-        uses: softprops/action-gh-release@v1
+      - name: Generate Release Notes
+        id: release-notes
+        uses: actions/github-script@v6
         with: 
-          generate_release_notes: true
-          tag_name: "releases/${{ steps.date.outputs.date }}"
-          token: "${{ secrets.TOKEN }}"
-          draft: true
+          debug: true
+          script: |
+            try {
+              const result = await github.rest.repos.generateReleaseNotes({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: 'unique'
+              })
+              console.log(result.data.body)
+              if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
+                return true
+              }
+            } catch (e) {
+              return false
+            }
+        
+      - name: Create Release
+        id: create-release
+        uses: actions/github-script@v6
+        with:
+          script: |
+            if ( ${{steps.release-notes.outputs.result}} === true ) {
+              try {
+                const result = await github.rest.repos.createRelease({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  tag_name: 'unique112',
+                  generate_release_notes: true,
+                  draft: true,
+                })
+
+                const body = result.data.body
+                console.log(body)
+                return {result: true, notes: result.data.body}
+              } catch (e) {
+                console.log('error',e)
+                return {result: false}
+              }
+            } else {
+              console.log('else***')
+              return {result: false}
+            }
+
+      - name: Return true or false
+        id: set_output
+        env: 
+          JSON: ${{ toJson(steps.create-release.outputs.result)}}
+        run: |
+          if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
+            echo "::set-output name=run_jobs::true"
+            echo ${{ env.JSON }} >> releaseNote.txt
+          else
+            echo "::set-output name=run_jobs::false"
+          fi
+      
+      - name: Upload release notes
+        uses: actions/upload-artifact@v3
+        with:
+          name: releaseNote
+          path: releaseNote.txt
+
+  No-Release:
+    needs: Check-Release
+    if: needs.Check-Release.outputs.run_rest_jobs == 'false'
+    runs-on: ubuntu-latest
+    environment:
+      name: TEST
+    steps:
+      - name: notify CS
+        uses: slackapi/slack-github-action@v1.21.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          channel-id: 'C03TVBRBHU5'
+          slack-message: "No Deployment"
 
   Deploy-Stage:
+    needs: Check-Release
+    if: needs.Check-Release.outputs.run_rest_jobs == 'true'
     runs-on: ubuntu-latest
+    environment:
+      name: TEST
     steps:
+      # - run: echo ${{ toJson(needs.Check-Release.outputs)}}
       - name: deploy_stage
         run: echo deploy to stage
-   
+  
   Notify-Stage:
     needs: Deploy-Stage
+    environment:
+      name: TEST
     runs-on: ubuntu-latest
     steps:
-      - name: notify_stage
-        run: echo notify to stage
+      - name: notify CS
+        uses: slackapi/slack-github-action@v1.21.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          channel-id: 'C03TVBRBHU5'
+          slack-message: "Deployed to stage"
 
   Deploy-Prod:
     needs: Deploy-Stage
@@ -55,20 +138,66 @@ jobs:
       name: Prod
     steps:
       - name: notify CS
-        run: echo maintenance started
+        id: slack-cs
+        uses: slackapi/slack-github-action@v1.21.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          channel-id: 'C03TVBRBHU5'
+          slack-message: "Maintenance is started"
+          
       - name: deploy_Prod
         run: echo deploy to Prod
-   
+  
   Notify-Prod:
-    needs: Deploy-Prod
+    needs: [Deploy-Prod]
     runs-on: ubuntu-latest
+    environment:
+      name: TEST
     steps:
-      - name: notify_Prod
-        run: echo notify to Prod
+      - name: deploy_prod
+        run: echo deploy to prod
+
+      - name: Download release notes
+        uses: actions/download-artifact@v3
+        with:
+          name: releaseNote
+
+      - name: Print the release notes
+        id: result
+        shell: bash
+        run: echo ::set-output name=release::$(cat releaseNote.txt)
+
+      - name: slack deployment channel
+        uses: slackapi/slack-github-action@v1.21.0
+        env:
+          JSON: ${{ fromJson(steps.result.outputs.release).notes}}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          channel-id: 'C03TVBRBHU5'
+          slack-message: "${{ env.JSON }}"
+      
       - name: notify CS
-        run: echo maintenance completed
-      - name: notify CS
-        run: echo send notification to deployment
+        id: slack-cs
+
+        uses: slackapi/slack-github-action@v1.21.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          channel-id: 'C03TVBRBHU5'
+          slack-message: "Maintenance is finished"
+
+  
+      # - name: notify_Prod
+      #   run: echo notify to Prod
+      # - name: notify CS
+      #   run: echo maintenance completed
+      # - name: notify CS
+      #   uses: slackapi/slack-github-action@v1.21.0
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #   with:
+      #     payload: '{ "text": ":tada: Deployed to Prod :tada:" }'
 
 
 # name: Cron
@@ -98,3 +227,27 @@ jobs:
 #         with:
 #           release-type: node
 #           package-name: release-please-action
+
+
+
+
+      # - name: Show Response
+      #   run: echo ${{ steps.create-release-notes }}
+
+      # - name: Show Response 2
+      #   run: echo ${{ toJSON(steps.create-release-notes)}}
+
+      # - name: print workspace id
+      #   run: echo ${{ toJSON(steps.release_notes) }}
+      # - name: parse-release-notes
+      #   run: echo ${{ toJson(steps.release_notes.outputs) }}
+
+      # - name: Create Release
+      #   # if: contains(steps.release_notes.outputs.body, 'fix:')
+      #   # https://github.com/softprops/action-gh-release dd
+      #   uses: softprops/action-gh-release@v1
+      #   with: 
+      #     generate_release_notes: true
+      #     tag_name: "releases/${{ steps.date.outputs.date }}"
+      #     token: "${{ secrets.TOKEN }}"
+      #     draft: true
