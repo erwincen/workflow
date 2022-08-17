@@ -148,6 +148,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: TEST
+    env: 
+      SOME: 'testing'
 
     steps:
       # - run: echo ${{ needs.Check-Release.outputs.notes }}
