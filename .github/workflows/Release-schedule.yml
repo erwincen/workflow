@@ -78,7 +78,7 @@ jobs:
         run: |
           if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
             echo "::set-output name=run_jobs::true"
-            echo "${{ steps.create-release.outputs.result }}" >> releaseNote.txt
+            echo "${{ toJson(steps.create-release.outputs) }}" >> releaseNote.txt
           else
             echo "::set-output name=run_jobs::false"
           fi
