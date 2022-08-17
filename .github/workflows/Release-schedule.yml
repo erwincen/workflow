@@ -160,18 +160,20 @@ jobs:
         with:
           name: releaseNote
       - name: Print the final result
+        id: result
         shell: bash
         run: |
           value=`cat releaseNote.txt`
           echo The result is $value
 
       - name: notify CS
-        uses: slackapi/slack-github-action@v1.21.0
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          channel-id: 'C03TVBRBHU5'
-          slack-message: ${{ value }}
+        run: echo ${{ steps.result.output}}
+        # uses: slackapi/slack-github-action@v1.21.0
+        # env:
+        #   SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        # with:
+        #   channel-id: 'C03TVBRBHU5'
+        #   slack-message: ${{ stevalue }}
 
   
       # - name: notify_Prod
