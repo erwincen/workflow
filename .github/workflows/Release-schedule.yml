@@ -80,11 +80,14 @@ jobs:
             }
       
 
-      - name: Upload release notes
+      - name: Write to file
         if: ${{ fromJson(steps.create-release.outputs.result).result }} == 'true'
         env: 
           JSON: ${{ toJson(steps.create-release.outputs.result)}}
         run: echo ${{ env.JSON }} >> releaseNote.txt
+
+      - name: Upload file
+        if: ${{ fromJson(steps.create-release.outputs.result).result }} == 'true'
         uses: actions/upload-artifact@v3
         with:
           name: releaseNote
