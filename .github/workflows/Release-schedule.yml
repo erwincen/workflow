@@ -169,7 +169,20 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
           channel-id: 'C03TVBRBHU5'
-          slack-message: $(cat releaseNote.txt)
+          payload: |
+            {
+              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ${{ steps.result.outputs.release }}
+                  }
+                }
+              ]
+            }
+          # slack-message: releaseNote.txt
 
   
       # - name: notify_Prod
