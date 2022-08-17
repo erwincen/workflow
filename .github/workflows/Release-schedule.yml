@@ -85,7 +85,7 @@ jobs:
             echo "::set-output name=run_jobs::false"
           fi
       
-      - name: Upload math result for job 1
+      - name: Upload release notes
         uses: actions/upload-artifact@v3
         with:
           name: releaseNote
@@ -93,7 +93,7 @@ jobs:
 
   No-Release:
     needs: Check-Release
-    if: needs.Check-Release.outputs.run_rest_jobs == 'true'
+    if: needs.Check-Release.outputs.run_rest_jobs == 'false'
     runs-on: ubuntu-latest
     environment:
       name: TEST
