@@ -178,7 +178,8 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn"
-                    "text": "${{ steps.result.outputs.release }}"}
+                    "text": "${{ steps.result.outputs.release }}"
+                  }
                 }
               ]
             }
