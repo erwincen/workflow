@@ -35,7 +35,7 @@ jobs:
                 repo: context.repo.repo,
                 tag_name: 'this-will-be-auto',
               })
-              if (result.data.body.includes('wizard:') || result.data.body.includes('lizard:') ) {
+              if (result.data.body.includes('wizard:') || result.data.body.includes(':') ) {
                 return true
               } else {
                 return false
