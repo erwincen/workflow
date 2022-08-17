@@ -78,7 +78,7 @@ jobs:
         run: |
           if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
             echo "::set-output name=run_jobs::true"
-            echo ${{ fromJson(steps.create-release.outputs.result).notes}} >> math-homework.txt
+            echo "::set-output name=notes:: ${{ fromJson(steps.create-release.outputs.result).notes}}" -o releaseNote.txt
           else
             echo "::set-output name=run_jobs::false"
           fi
