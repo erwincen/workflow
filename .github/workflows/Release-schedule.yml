@@ -169,7 +169,7 @@ jobs:
 
       # - run: echo ${{ value }}
 
-      - run: echo ${{ fromJson(steps.result.outputs.release).notes }}
+      # - run: echo ${{ fromJson(steps.result.outputs.release).notes }}
       - name: testing 
         uses: slackapi/slack-github-action@v1.21.0
         env:
