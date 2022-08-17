@@ -36,7 +36,7 @@ jobs:
                 tag_name: 'unique'
               })
               if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
-                return true
+                return false
               }
             } catch (e) {
               return false
@@ -71,7 +71,6 @@ jobs:
                 repo: context.repo.repo,
                 tag_name: 'releases/${{ steps.date.outputs.date}}',
                 generate_release_notes: true,
-                draft: true,
               })
 
               return {result: true, notes: result.data.body}
