@@ -17,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       run_rest_jobs: ${{ steps.set_output.outputs.run_jobs }}
-      notes: ${{ steps.set_output.outputs.notes }}
     environment:
       name: TEST
       
@@ -80,7 +79,6 @@ jobs:
         run: |
           if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
             echo "::set-output name=run_jobs::true"
-            echo "::set-output name=notes::${{ steps.create-release.outputs.result }}"
           else
             echo "::set-output name=run_jobs::false"
           fi
@@ -148,9 +146,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo ${{ needs.Check-Release.outputs.notes }}
+      # - run: echo ${{ needs.Check-Release.outputs.notes }}
       # - run: echo ${{ toJson(needs.Check-Release)}}
-      - run: echo ${{ toJson(needs.Check-Release.outputs.notes) }}
+      # - run: echo ${{ toJson(needs.Check-Release.outputs.notes) }}
       - name: deploy_stage
         run: echo deploy to stage
       - name: Download math result for job 2
