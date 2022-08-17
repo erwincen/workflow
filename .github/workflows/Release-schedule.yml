@@ -146,6 +146,8 @@ jobs:
   Notify-Prod:
     needs: [Check-Release]
     runs-on: ubuntu-latest
+    environment:
+      name: TEST
 
     steps:
       # - run: echo ${{ needs.Check-Release.outputs.notes }}
