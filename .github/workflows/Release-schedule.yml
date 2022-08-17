@@ -172,7 +172,7 @@ jobs:
           channel-id: 'C03TVBRBHU5'
           payload: |
             {
-              "text": "`${{ env.JSON }}`"
+              "text": "${{ env.JSON }}"
             }
           
 
