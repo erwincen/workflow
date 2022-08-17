@@ -169,8 +169,7 @@ jobs:
 
 
       - name: testing 
-        run: cat releaseNote.txt
-
+        run: echo ${{steps.result.outputs}}
         # uses: slackapi/slack-github-action@v1.21.0
         # env:
         #   SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
