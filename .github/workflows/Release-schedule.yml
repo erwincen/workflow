@@ -1,11 +1,8 @@
-name: Dev Deploy
+name: Release
 
 on:
-  # pull_request:
-  #   branches:
-  #     - main
   schedule:
-      # https://crontab.guru/#0_13_*_*_TUE
+    # https://crontab.guru/#0_13_*_*_TUE
     - cron: "10 18 * * *"
 
 concurrency:
@@ -73,14 +70,11 @@ jobs:
                 repo: context.repo.repo,
                 tag_name: 'releases/${{steps.date.outputs.date}}.1',
                 generate_release_notes: true,
-                draft: true
               })
-
               return {result: true, notes: result.data.body}
             } catch (e) {
               return {result: false}
             }
-      
 
       - name: Write to file
         if: ${{ fromJson(steps.create-release.outputs.result).result }} == 'true'
