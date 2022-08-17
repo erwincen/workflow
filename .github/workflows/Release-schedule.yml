@@ -162,6 +162,15 @@ jobs:
         run: |
           value=`cat releaseNote.txt`
           echo The result is $value
+
+      - name: notify CS
+        uses: slackapi/slack-github-action@v1.21.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          channel-id: 'CPH9L6QF6'
+          slack-message: $value
+
   
       # - name: notify_Prod
       #   run: echo notify to Prod
