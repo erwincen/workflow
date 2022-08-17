@@ -23,10 +23,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-
       - name: Generate Release Notes
         id: release-notes
         uses: actions/github-script@v6
@@ -37,7 +33,7 @@ jobs:
               const result = await github.rest.repos.generateReleaseNotes({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                tag_name: 'releases/2022-08-17.1',
+                tag_name: 'this-will-be-auto',
               })
               if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
                 return true
@@ -75,7 +71,7 @@ jobs:
               const result = await github.rest.repos.createRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                tag_name: 'releases/2022-08-17.1',
+                tag_name: 'releases/2022-08-17.2',
                 generate_release_notes: true,
               })
 
