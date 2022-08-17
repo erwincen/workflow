@@ -170,6 +170,10 @@ jobs:
 
       - name: notify CS
         run: echo ${{ env }}
+
+      - name: testing 
+        run: cat releaseNote.txt
+
         # uses: slackapi/slack-github-action@v1.21.0
         # env:
         #   SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
