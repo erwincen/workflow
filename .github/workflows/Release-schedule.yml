@@ -174,15 +174,15 @@ jobs:
           channel-id: 'C03TVBRBHU5'
           payload: |
             {
+              "text": "GitHub Action"
               "blocks": [
                 {
-                
+                  "type": "section",
                   "text": {
                     "type": "mrkdwn",
                     "text": ${{ env.JSON }}
                   } 
                 }
-                
               ]
             }
           
