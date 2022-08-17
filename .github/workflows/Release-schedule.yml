@@ -36,7 +36,7 @@ jobs:
                 tag_name: 'unique'
               })
               if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
-                return false
+                return true
               }
             } catch (e) {
               return false
