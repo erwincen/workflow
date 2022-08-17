@@ -158,6 +158,7 @@ jobs:
           name: releaseNote
       - name: Print the final result
         id: result
+        shell: bash
         # run: echo ::set-output name=release::$(cat releaseNoteText)
         run: |
           value = `cat releaseNoteText`
