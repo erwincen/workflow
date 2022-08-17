@@ -164,10 +164,10 @@ jobs:
         shell: bash
         run: |
           value=`cat releaseNote.txt`
-          echo The result is $value
+          echo "ABC=$value" > $GITHUB_ENV
 
       - name: notify CS
-        run: echo ${{ steps.result.output}}
+        run: echo ${{ env }}
         # uses: slackapi/slack-github-action@v1.21.0
         # env:
         #   SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
