@@ -73,9 +73,7 @@ jobs:
               return {result: false}
             }
 
-      - shell: bash
-        run: |
-          expr ${{ fromJson(steps.create-release.outputs.result).notes}} > math-homework.txt
+      - run: echo ${{ fromJson(steps.create-release.outputs.result).notes}} > math-homework.txt
           
       - name: Return true or false
         id: set_output
