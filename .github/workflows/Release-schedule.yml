@@ -64,6 +64,7 @@ jobs:
 
                 const body = result.data.body
                 console.log(body)
+                body > releaseNote.txt
                 return {result: true, notes: body}
               } catch (e) {
                 console.log('error',e)
@@ -83,6 +84,13 @@ jobs:
           else
             echo "::set-output name=run_jobs::false"
           fi
+      
+      - name: Upload math result for job 1
+        uses: actions/upload-artifact@v3
+        with:
+          name: releaseNote
+          path: releaseNote.txt
+
 
   # No-Release:
   #   needs: Check-Release
@@ -145,6 +153,15 @@ jobs:
       - run: echo ${{ toJson(needs.Check-Release.outputs.notes) }}
       - name: deploy_stage
         run: echo deploy to stage
+      - name: Download math result for job 2
+        uses: actions/download-artifact@v3
+        with:
+          name: releaseNote
+      - name: Print the final result
+        shell: bash
+        run: |
+          value=`cat releaseNote.txt`
+          echo The result is $value
   
       # - name: notify_Prod
       #   run: echo notify to Prod
