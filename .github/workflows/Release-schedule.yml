@@ -169,7 +169,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
           channel-id: 'C03TVBRBHU5'
-          slack-message: ${{ toJson(steps.result.outputs.release) }}
+          slack-message: $(cat releaseNote.txt)
 
   
       # - name: notify_Prod
