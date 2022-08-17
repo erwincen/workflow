@@ -161,7 +161,7 @@ jobs:
         shell: bash
         # run: echo ::set-output name=release::$(cat releaseNote.txt)
         run: |
-          value = `cat releaseNote.txt`
+          value=`cat releaseNote.txt`
           echo The result is $value
 
       # - run: echo ${{ steps.result.outputs.release}}
