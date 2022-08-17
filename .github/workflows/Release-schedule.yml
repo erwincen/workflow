@@ -174,7 +174,10 @@ jobs:
           channel-id: 'C03TVBRBHU5'
           payload: |
             {
-              "text": ${{ env.JSON }}
+              "text": {
+                "type": "mrkdwn",
+                "text": ${{ env.JSON }}
+              } 
             }
           
 
