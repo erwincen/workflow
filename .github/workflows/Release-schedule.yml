@@ -148,9 +148,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: TEST
-    env: 
-      SOME: 'testing'
-
     steps:
       # - run: echo ${{ needs.Check-Release.outputs.notes }}
       # - run: echo ${{ toJson(needs.Check-Release)}}
@@ -163,9 +160,8 @@ jobs:
           name: releaseNote
       - name: Print the final result
         id: result
-        shell: bash
         run: |
-            run: echo "::set-output name=release::$(cat releaseNote.txt)"
+            run: echo ::set-output name=release::$(cat releaseNote.txt)
 
 
       - name: testing 
