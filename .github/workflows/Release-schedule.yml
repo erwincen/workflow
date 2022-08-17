@@ -140,9 +140,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo ${{ needs.Check-Release.outputs.notes }}
-      - run: echo ${{ toJson(needs.Check-Release.outputs.notes)}}
-      - run: echo ${{ fromJson(needs.Check-Release.outputs).notes }}
+      - run: echo ${{ needs.Check-Release.outputs }}
+      - run: echo ${{ toJson(needs.Check-Release.outputs)}}
+      - run: echo ${{ fromJson(needs.Check-Release.outputs.notes).body }}
       - name: deploy_stage
         run: echo deploy to stage
   
