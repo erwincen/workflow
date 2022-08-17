@@ -167,7 +167,7 @@ jobs:
           value=`cat releaseNote.txt`
           echo The result is $value
 
-      # - run: echo ${{ steps.result.outputs.release}}
+      - run: echo ${{ value }}
 
       # - name: testing 
       #   uses: slackapi/slack-github-action@v1.21.0
