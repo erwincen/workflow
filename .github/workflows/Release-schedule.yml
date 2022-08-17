@@ -56,13 +56,14 @@ jobs:
                 const result = await github.rest.repos.createRelease({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  tag_name: 'unique12',
+                  tag_name: 'unique112',
                   generate_release_notes: true,
                   draft: true,
                 })
 
                 const body = result.data.body
                 console.log(body)
+                body >> $GITHUB.ENV
                 return {result: true, notes: body}
               } catch (e) {
                 console.log('error',e)
@@ -73,6 +74,8 @@ jobs:
               return {result: false}
             }
 
+      - run: echo "ABC=${{ fromJson(steps.create-release.outputs.result).notes }}"" >> $GITHUB_ENV
+      - run: echo ${{ env.ABC }}
       - name: Return true or false
         id: set_output
         run: |
