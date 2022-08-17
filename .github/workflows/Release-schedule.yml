@@ -63,7 +63,6 @@ jobs:
 
                 const body = result.data.body
                 console.log(body)
-                body >> $GITHUB.ENV
                 return {result: true, notes: body}
               } catch (e) {
                 console.log('error',e)
