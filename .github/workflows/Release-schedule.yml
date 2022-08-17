@@ -173,7 +173,7 @@ jobs:
       - name: testing 
         uses: slackapi/slack-github-action@v1.21.0
         env:
-          JSON: ${{ toJson(steps.result.outputs.release)}}
+          JSON: ${{ fromJson(steps.result.outputs.release).notes}}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
           channel-id: 'C03TVBRBHU5'
