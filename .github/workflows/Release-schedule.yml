@@ -76,7 +76,8 @@ jobs:
       - name: Return true or false
         id: set_output
         env: 
-          JSON: ${{ toJson(steps.create-release.outputs.result)}}
+          # JSON: ${{ toJson(steps.create-release.outputs.result)}}
+          JSON: ${{ steps.create-release.outputs.result }}
         run: |
           if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
             echo "::set-output name=run_jobs::true"
@@ -172,7 +173,7 @@ jobs:
           channel-id: 'C03TVBRBHU5'
           payload: |
             {
-              "text": "${{ toJson(env.JSON) }}"
+              "text": "${{ env.JSON }}"
             }
           
 
