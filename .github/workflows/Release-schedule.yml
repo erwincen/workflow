@@ -170,8 +170,8 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          channel-id: 'CPH9L6QF6'
-          slack-message: $value
+          channel-id: 'C03TVBRBHU5'
+          slack-message: ${{ value }}
 
   
       # - name: notify_Prod
