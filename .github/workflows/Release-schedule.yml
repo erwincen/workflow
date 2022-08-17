@@ -62,7 +62,7 @@ jobs:
                   draft: true,
                 })
 
-                const note = result.data.body
+                const notes = result.data.body
                 console.log('notes', notes)
                 return {result: true, notes: notes}
               } catch (e) {
@@ -142,7 +142,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo ${{ needs.Check-Release.outputs }}
+      - run: echo ${{ needs.Check-Release.outputs.notes }}
       - run: echo ${{ toJson(needs.Check-Release.outputs.notes)}}
       # - run: echo ${{ fromJson(needs.Check-Release.outputs).notes }}
       - name: deploy_stage
