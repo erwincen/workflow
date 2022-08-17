@@ -62,9 +62,9 @@ jobs:
                   draft: true,
                 })
 
-                const notes = result.data.body
+                const body = result.data.body
                 console.log('notes', notes)
-                return {result: true, notes: {body: notes}}
+                return {result: true, notes: {body: body}}
               } catch (e) {
                 console.log('error',e)
                 return {result: false}
