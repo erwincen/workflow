@@ -84,9 +84,9 @@ jobs:
 
       - name: Write to file
         if: ${{ fromJson(steps.create-release.outputs.result).result }} == 'true'
-        env: 
-          JSON: ${{ toJson(steps.create-release.outputs.result)}}
-        run: echo ${{ env.JSON }} >> releaseNote.txt
+        # env: 
+        #   JSON: ${{ toJson(steps.create-release.outputs.result)}}
+        run: echo ${{ toJson(steps.create-release.outputs.result) }} >> releaseNote.txt
 
       - name: Upload file
         if: ${{ fromJson(steps.create-release.outputs.result).result }} == 'true'
