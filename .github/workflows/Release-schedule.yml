@@ -113,7 +113,7 @@ jobs:
     environment:
       name: TEST
     steps:
-      - run: echo ${{ toJson(needs.Check-Release.outputs)}}
+      # - run: echo ${{ toJson(needs.Check-Release.outputs)}}
       - name: deploy_stage
         run: echo deploy to stage
   
