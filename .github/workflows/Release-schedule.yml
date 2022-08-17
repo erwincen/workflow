@@ -78,7 +78,7 @@ jobs:
         run: |
           if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
             echo "::set-output name=run_jobs::true"
-            echo "${{ fromJson(steps.create-release.outputs.result).notes }}" >> releaseNote.txt
+            echo "${{ steps.create-release.outputs.result }}" >> releaseNote.txt
           else
             echo "::set-output name=run_jobs::false"
           fi
@@ -161,11 +161,8 @@ jobs:
         shell: bash
         # run: echo ::set-output name=release::$(cat releaseNote.txt)
         run: |
-          echo "NOTES=$(cat releaseNote.txt)" >> $GITHUB_ENV
-
-      - run: echo ${{ env.NOTES }}
-      # value=`cat releaseNote.txt`
-      # echo The result is $value
+          value=`cat releaseNote.txt`
+          echo The result is $value
 
       # - run: echo ${{ steps.result.outputs.release}}
 
