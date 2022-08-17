@@ -63,7 +63,7 @@ jobs:
 
                 const body = result.data.body
                 console.log(body)
-                return {result: true, notes: body}
+                return {result: true, notes: result.data.body}
               } catch (e) {
                 console.log('error',e)
                 return {result: false}
