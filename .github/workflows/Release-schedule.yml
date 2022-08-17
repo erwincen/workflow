@@ -45,51 +45,91 @@ jobs:
             } catch (e) {
               return false
             }
-        
+
+      - name: Return true or false
+        id: set_output
+        run: |
+          if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
+            echo "::set-output name=run_jobs::true"
+          else
+            echo "::set-output name=run_jobs::false"
+          fi
+    
+  Create-Release:
+    needs: Check-Release
+    if: needs.Check-Release.outputs.run_rest_jobs == 'true'
+    runs-on: ubuntu-latest
+    steps:
       - name: Create Release
         id: create-release
         uses: actions/github-script@v6
         with:
           script: |
-            if ( ${{steps.release-notes.outputs.result}} === true ) {
-              try {
-                const result = await github.rest.repos.createRelease({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  tag_name: 'unique112',
-                  generate_release_notes: true,
-                  draft: true,
-                })
+            try {
+              const result = await github.rest.repos.createRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                tag_name: 'unique112',
+                generate_release_notes: true,
+                draft: true,
+              })
 
-                const body = result.data.body
-                console.log(body)
-                return {result: true, notes: result.data.body}
-              } catch (e) {
-                console.log('error',e)
-                return {result: false}
-              }
-            } else {
-              console.log('else***')
+              return {result: true, notes: result.data.body}
+            } catch (e) {
               return {result: false}
             }
+      
 
-      - name: Return true or false
-        id: set_output
+      - name: Upload release notes
+        if: ${{ fromJson(steps.create-release.outputs.result).result }} == 'true'
         env: 
           JSON: ${{ toJson(steps.create-release.outputs.result)}}
-        run: |
-          if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
-            echo "::set-output name=run_jobs::true"
-            echo ${{ env.JSON }} >> releaseNote.txt
-          else
-            echo "::set-output name=run_jobs::false"
-          fi
-      
-      - name: Upload release notes
+        run: echo ${{ env.JSON }} >> releaseNote.txt
         uses: actions/upload-artifact@v3
         with:
           name: releaseNote
           path: releaseNote.txt
+        
+      # - name: Create Release
+      #   id: create-release
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       if ( ${{steps.release-notes.outputs.result}} === true ) {
+      #         try {
+      #           const result = await github.rest.repos.createRelease({
+      #             owner: context.repo.owner,
+      #             repo: context.repo.repo,
+      #             tag_name: 'unique112',
+      #             generate_release_notes: true,
+      #             draft: true,
+      #           })
+
+      #           return {result: true, notes: result.data.body}
+      #         } catch (e) {
+      #           return {result: false}
+      #         }
+      #       } else {
+      #         return {result: false}
+      #       }
+
+      # - name: Return true or false
+      #   id: set_output
+      #   env: 
+      #     JSON: ${{ toJson(steps.create-release.outputs.result)}}
+      #   run: |
+      #     if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
+      #       echo "::set-output name=run_jobs::true"
+      #       echo ${{ env.JSON }} >> releaseNote.txt
+      #     else
+      #       echo "::set-output name=run_jobs::false"
+      #     fi
+      
+      # - name: Upload release notes
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: releaseNote
+      #     path: releaseNote.txt
 
   No-Release:
     needs: Check-Release
@@ -107,13 +147,11 @@ jobs:
           slack-message: "No Deployment"
 
   Deploy-Stage:
-    needs: Check-Release
-    if: needs.Check-Release.outputs.run_rest_jobs == 'true'
+    needs: Create-Release
     runs-on: ubuntu-latest
     environment:
       name: TEST
     steps:
-      # - run: echo ${{ toJson(needs.Check-Release.outputs)}}
       - name: deploy_stage
         run: echo deploy to stage
   
