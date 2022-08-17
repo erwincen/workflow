@@ -45,16 +45,16 @@ jobs:
             } catch (e) {
               return false
             }
+  # echo ${{ toJson(steps.release-notes.outputs) }}
 
       - name: Return true or false
         id: set_output
         run: |
-          echo ${{ toJson(steps.release-notes.outputs) }}
-      # if [[ ${{ fromJson(steps.release-notes.outputs).result }} == true ]]; then
-      #   echo "::set-output name=run_jobs::true"
-      # else
-      #   echo "::set-output name=run_jobs::false"
-      # fi
+          if [[ ${{ fromJson(steps.release-notes.outputs).result }} == true ]]; then
+            echo "::set-output name=run_jobs::true"
+          else
+            echo "::set-output name=run_jobs::false"
+          fi
     
   Create-Release:
     needs: Check-Release
