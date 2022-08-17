@@ -63,7 +63,6 @@ jobs:
 
                 const body = result.data.body
                 console.log(body)
-                body > releaseNote.txt
                 return {result: true, notes: body}
               } catch (e) {
                 console.log('error',e)
@@ -73,6 +72,10 @@ jobs:
               console.log('else***')
               return {result: false}
             }
+
+      - shell: bash
+        run: |
+          echo ${{ fromJson(steps.create-release.outputs.result).notes}} > math-homework.txt
           
       - name: Return true or false
         id: set_output
