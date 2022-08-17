@@ -150,26 +150,19 @@ jobs:
     environment:
       name: TEST
     steps:
-      # - run: echo ${{ needs.Check-Release.outputs.notes }}
-      # - run: echo ${{ toJson(needs.Check-Release)}}
-      # - run: echo ${{ toJson(needs.Check-Release.outputs.notes) }}
       - name: deploy_stage
         run: echo deploy to stage
-      - name: Download math result for job 2
+
+      - name: Download release notes
         uses: actions/download-artifact@v3
         with:
           name: releaseNote
+
       - name: Print the final result
         id: result
         shell: bash
         run: echo ::set-output name=release::$(cat releaseNote.txt)
-        # run: |
-        #   value=`cat releaseNote.txt`
-        #   echo $value >>
 
-      # - run: echo ${{ value }}
-
-      # - run: echo ${{ fromJson(steps.result.outputs.release).notes }}
       - name: testing 
         uses: slackapi/slack-github-action@v1.21.0
         env:
@@ -177,20 +170,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
           channel-id: 'C03TVBRBHU5'
-          # payload: |
-          #   {
-          #     "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
-          #     "blocks": [
-          #       {
-          #         "type": "section",
-          #         "text": {
-          #           "type": "mrkdwn"
-          #           "text": "${{ env.JSON }}"
-          #         }
-          #       }
-          #     ]
-          #   }
-          slack-message: "${{ env.JSON }}"
+          slack-message: "`${{ env.JSON }}`"
 
   
       # - name: notify_Prod
