@@ -64,7 +64,7 @@ jobs:
 
                 const body = result.data.body
                 console.log('notes', notes)
-                return {result: true, notes: {body: body}}
+                return {result: true, notes: body}
               } catch (e) {
                 console.log('error',e)
                 return {result: false}
@@ -79,7 +79,7 @@ jobs:
         run: |
           if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
             echo "::set-output name=run_jobs::true"
-            echo "::set-output name=notes::${{ fromJson(steps.create-release.outputs.result.notes).body }}"
+            echo "::set-output name=notes::${{ fromJson(steps.create-release.outputs.result).notes }}"
           else
             echo "::set-output name=run_jobs::false"
           fi
