@@ -160,7 +160,7 @@ jobs:
           name: releaseNote
       - name: Print the final result
         id: result
-        run: echo ::set-output name=release::$(cat releaseNote.txt)
+        run: echo ::set-output name=release::releaseNote.txt
 
       - run: echo ${{ steps.result.outputs.release}}
 
