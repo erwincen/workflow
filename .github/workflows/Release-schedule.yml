@@ -38,7 +38,7 @@ jobs:
                 repo: context.repo.repo,
                 tag_name: 'unique'
               })
-
+              console.log(result.data.body)
               if (result.data.body.includes('fix:') || result.data.body.includes('feat:') ) {
                 return true
               }
@@ -78,7 +78,7 @@ jobs:
         run: |
           if [[ ${{ fromJson(steps.create-release.outputs.result).result }} == true ]]; then
             echo "::set-output name=run_jobs::true"
-            echo "${{ toJson(steps.create-release.outputs) }}" >> releaseNote.txt
+            echo "${{ toJson(steps.create-release) }}" >> releaseNote.txt
           else
             echo "::set-output name=run_jobs::false"
           fi
