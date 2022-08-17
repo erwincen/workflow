@@ -73,7 +73,8 @@ jobs:
               return {result: false}
             }
 
-      - run: echo "${{ fromJson(steps.create-release.outputs.result).notes }}" >> releaseNote.txt
+      # - run: echo "${{ fromJson(steps.create-release.outputs.result).notes }}" >> releaseNote.txt
+      - run: echo "${{ steps.create-release.outputs.result }}" >> releaseNote.txt
 
       - name: Return true or false
         id: set_output
