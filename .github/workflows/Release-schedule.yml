@@ -36,19 +36,22 @@ jobs:
                 repo: context.repo.repo,
                 tag_name: 'this-will-be-auto',
               })
-              console.log('result ->', result.data.body)
-              const a = result.data.body.match(regex)
-              console.log('***', a)
-              return a
+
+              if (result.data.body.match(regex) ) {
+                return true
+              } else {
+                return false
+              }
+              
             } catch (e) {
               return false
             }
 
-      # if (result.data.body.includes('wizard:') || result.data.body.includes('lizard:') ) {
-      #   return true
-      # } else {
-      #   return false
-      # }
+        # console.log('result ->', result.data.body)
+        # const a = result.data.body.match(regex)
+        # console.log('***', a)
+        # return a
+
 
       - name: Return check release
         id: set_output
