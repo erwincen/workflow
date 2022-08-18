@@ -29,7 +29,7 @@ jobs:
         with: 
           debug: true
           script: |
-            const regex = /vegas/g
+            const regex = /fix|feat|perf|refactor/
             try {
               const result = await github.rest.repos.generateReleaseNotes({
                 owner: context.repo.owner,
