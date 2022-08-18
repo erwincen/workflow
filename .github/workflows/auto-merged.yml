@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     # if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'}}
     steps:
+      - run: echo ${{ toJson(github)}}
       - name: Dependabot metadata
         id: metadata
         uses: dependabot/fetch-metadata@v1.3.1
