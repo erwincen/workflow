@@ -1,0 +1,44 @@
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+
+# registries:
+#   npm-github:
+#     type: npm-registry
+#     url: https://npm.pkg.github.com
+#     token: ${{ secrets.SRV_ISTREAMPLANET_ORG_RO }}
+
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "17:35"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 100
+    registries:
+      - npm-github
+    commit-message:
+      prefix: fix
+      prefix-development: chore
+    pull-request-branch-name:
+      separator: "-"
+    versioning-strategy: increase-if-necessary
+    # Ignore major react and react-router updates as those require more
+    # work and we are most likely already aware of them.
+    ignore:
+      - dependency-name: "react"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "react-dom"
+        update-types:
+          - "version-update:semver-major"
+      - dependency-name: "react-router"
+        update-types:
+          - "version-update:semver-major"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
