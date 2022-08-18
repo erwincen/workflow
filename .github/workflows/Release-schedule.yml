@@ -47,12 +47,6 @@ jobs:
               return false
             }
 
-        # console.log('result ->', result.data.body)
-        # const a = result.data.body.match(regex)
-        # console.log('***', a)
-        # return a
-
-
       - name: Return check release
         id: set_output
         run: |
@@ -115,7 +109,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          channel-id: 'C03TVBRBHU5'
+          channel-id: 'C03U6RK737C'
           slack-message: "No Deployment"
 
   Deploy-Stage:
@@ -138,7 +132,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          channel-id: 'C03TVBRBHU5'
+          channel-id: 'C03U6RK737C'
           slack-message: "Deployed to stage"
 
   Deploy-Prod:
@@ -153,7 +147,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          channel-id: 'C03TVBRBHU5'
+          channel-id: 'C03U6RK737C'
           slack-message: "Maintenance is started"
           
       - name: deploy_Prod
@@ -184,7 +178,7 @@ jobs:
           JSON: ${{ fromJson(steps.result.outputs.release).notes}}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          channel-id: 'C03TVBRBHU5'
+          channel-id: 'C03U6RK737C'
           slack-message: "${{ fromJson(steps.result.outputs.release).notes }}"
       
       - name: notify CS
@@ -194,7 +188,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
-          channel-id: 'C03TVBRBHU5'
+          channel-id: 'C03U6RK737C'
           slack-message: "Maintenance is finished"
 
   
